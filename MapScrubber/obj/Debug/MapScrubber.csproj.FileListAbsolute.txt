@@ -1,0 +1,15 @@
+D:\Github\Map Scrubber\MapScrubber\bin\Debug\MapScrubber.exe.config
+D:\Github\Map Scrubber\MapScrubber\bin\Debug\MapScrubber.exe
+D:\Github\Map Scrubber\MapScrubber\bin\Debug\MapScrubber.pdb
+D:\Github\Map Scrubber\MapScrubber\obj\Debug\MapScrubber.csprojAssemblyReference.cache
+D:\Github\Map Scrubber\MapScrubber\obj\Debug\MapScrubber.csproj.CoreCompileInputs.cache
+D:\Github\Map Scrubber\MapScrubber\obj\Debug\MapScrubber.exe
+D:\Github\Map Scrubber\MapScrubber\obj\Debug\MapScrubber.pdb
+D:\Github\Map Scrubber\MapScrubber\obj\Debug\MapScrubber.AppForm.resources
+D:\Github\Map Scrubber\MapScrubber\obj\Debug\MapScrubber.csproj.GenerateResource.cache
+D:\Github\Map Scrubber\MapScrubber\bin\Debug\Microsoft.WindowsAPICodePack.dll
+D:\Github\Map Scrubber\MapScrubber\bin\Debug\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll
+D:\Github\Map Scrubber\MapScrubber\bin\Debug\Microsoft.WindowsAPICodePack.Sensors.dll
+D:\Github\Map Scrubber\MapScrubber\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+D:\Github\Map Scrubber\MapScrubber\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.dll
+D:\Github\Map Scrubber\MapScrubber\obj\Debug\MapScrubber.csproj.CopyComplete
