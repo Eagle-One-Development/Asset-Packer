@@ -122,9 +122,9 @@ namespace MapScrubber {
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(12, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 13);
+            this.label4.Size = new System.Drawing.Size(56, 13);
             this.label4.TabIndex = 10;
-            this.label4.Text = "Map File:";
+            this.label4.Text = "Vmap File:";
             // 
             // map_textbox
             // 
