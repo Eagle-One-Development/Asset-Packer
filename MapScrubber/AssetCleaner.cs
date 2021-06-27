@@ -16,15 +16,12 @@ namespace MapScrubber {
 		private string vpkDirectory;
 		private string vmapFile;
 
-
-
 		public AssetCleaner(string a, string vp, string vm) {
 			assetPath = a;
 			vpkDirectory = vp;
 			vmapFile = vm;
 			outputDirectory = Path.GetDirectoryName(vmapFile) + "\\" + Path.GetFileNameWithoutExtension(vmapFile);
 			Directory.CreateDirectory(outputDirectory);
-
 		}
 
 		public void GetAssets() {
@@ -34,7 +31,7 @@ namespace MapScrubber {
 			Console.WriteLine($"reading map file: {pathToMap}");
 			byte[] file = File.ReadAllBytes(pathToMap);
 			AssetFile map = AssetFile.From(file);
-			map.TrimAssetList(); // trim it to the space where assets are actually referenced, using "map_assets_references"
+			map.TrimAssetList(); // trim it to the space where assets are actually referenced, using "map_assets_references" markers
 
 			foreach(var item in map.SplitNull()) {
 				if(item.EndsWith("vmat")) {
@@ -49,10 +46,8 @@ namespace MapScrubber {
 			foreach(var asset in assets) {
 				Console.WriteLine($"\t{asset}");
 			}
-
 			CopyFiles();
 		}
-
 
 		public void PackVPK() {
 			vpkDirectory += "\\bin\\win64\\vpk.exe";
@@ -76,32 +71,20 @@ namespace MapScrubber {
 				objThread.Priority = ThreadPriority.AboveNormal;
 				//Start the thread.
 				objThread.Start(command);
-			} catch(ThreadStartException objException) {
-				// Log the exception
-			} catch(ThreadAbortException objException) {
-				// Log the exception
-			} catch(Exception objException) {
+			} catch {
 				// Log the exception
 			}
 		}
 
 		public void ExecuteCommandSync(object command) {
 			try {
-				// create the ProcessStartInfo using "cmd" as the program to be run,
-				// and "/c " as the parameters.
-				// Incidentally, /c tells cmd that we want it to execute the command that follows,
-				// and then exit.
 				System.Diagnostics.ProcessStartInfo procStartInfo =
-					new System.Diagnostics.ProcessStartInfo(vpkDirectory, "/c ");
+					_ = new System.Diagnostics.ProcessStartInfo(vpkDirectory, "/c ");
 
 				procStartInfo.Arguments = (string)command;
-				// The following commands are needed to redirect the standard output.
-				// This means that it will be redirected to the Process.StandardOutput StreamReader.
 				procStartInfo.RedirectStandardOutput = true;
 				procStartInfo.UseShellExecute = false;
-				// Do not create the black window.
 				procStartInfo.CreateNoWindow = true;
-				// Now we create a process, assign its ProcessStartInfo and start it
 				System.Diagnostics.Process proc = new System.Diagnostics.Process();
 				proc.StartInfo = procStartInfo;
 				proc.Start();
@@ -109,7 +92,7 @@ namespace MapScrubber {
 				string result = proc.StandardOutput.ReadToEnd();
 				// Display the command output.
 				Console.WriteLine(result);
-			} catch(Exception objException) {
+			} catch {
 				// Log the exception
 			}
 		}
@@ -142,7 +125,7 @@ namespace MapScrubber {
 						Console.WriteLine($"{source} could not be found and was not copied");
 					}
 
-				} catch(DirectoryNotFoundException exception) {
+				} catch(DirectoryNotFoundException) {
 					Console.WriteLine($"{source} cannot be copied to {destination} because the directory of the source file does not exist. \n Likely the file isn't in the provided asset directory. ");
 				}
 			}
@@ -162,7 +145,7 @@ namespace MapScrubber {
 						GetAssetsFromMaterial(matItem); // add vtex_c referenced by the vmat_c
 					}
 				}
-			} catch(Exception) {
+			} catch {
 				//Console.WriteLine($"{item}\t [NOT FOUND]");
 			}
 		}
@@ -177,7 +160,7 @@ namespace MapScrubber {
 						AddAsset($"{texItem}_c"); // add vtex_c referenced by the vmat_c
 					}
 				}
-			} catch(Exception) {
+			} catch {
 				//Console.WriteLine($"{item}\t [NOT FOUND]");
 			}
 		}
@@ -195,12 +178,12 @@ namespace MapScrubber {
 		private string assetReference;
 		public static AssetFile From(byte[] bytes) {
 			AssetFile asset = new AssetFile();
-			asset.assetReference = System.Text.Encoding.Default.GetString(bytes);
+			asset.assetReference = Encoding.Default.GetString(bytes);
 			return asset;
 		}
 
 		public string[] SplitNull() {
-			string[] arr = { "\0" };
+			string[] arr = { "\0" }; // lol why doesn't this have an overload for strings
 			return assetReference.Split(arr, StringSplitOptions.RemoveEmptyEntries);
 		}
 
