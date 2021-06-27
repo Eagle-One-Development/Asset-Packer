@@ -25,6 +25,7 @@ namespace MapScrubber
             TextWriter tmp = Console.Out; // Save the current console TextWriter. 
             StringRedir r = new StringRedir(ref consoleTextbox);
             Console.SetOut(r); // Set console output to the StringRedir class. 
+			progressBar.Value = 50;
             
 
         }
