@@ -41,11 +41,12 @@ namespace MapScrubber {
             // asset_textbox
             // 
             this.asset_textbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
-            this.asset_textbox.ForeColor = System.Drawing.Color.White;
+            this.asset_textbox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.asset_textbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(170)))), ((int)(((byte)(148)))));
             this.asset_textbox.Location = new System.Drawing.Point(102, 35);
             this.asset_textbox.Name = "asset_textbox";
             this.asset_textbox.ReadOnly = true;
-            this.asset_textbox.Size = new System.Drawing.Size(605, 20);
+            this.asset_textbox.Size = new System.Drawing.Size(605, 21);
             this.asset_textbox.TabIndex = 0;
             // 
             // label1
@@ -61,6 +62,7 @@ namespace MapScrubber {
             // 
             // browse_asset
             // 
+            this.browse_asset.ForeColor = System.Drawing.Color.White;
             this.browse_asset.Location = new System.Drawing.Point(713, 32);
             this.browse_asset.Name = "browse_asset";
             this.browse_asset.Size = new System.Drawing.Size(75, 23);
@@ -83,15 +85,17 @@ namespace MapScrubber {
             // vpk_textbox
             // 
             this.vpk_textbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
-            this.vpk_textbox.ForeColor = System.Drawing.Color.White;
+            this.vpk_textbox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vpk_textbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(170)))), ((int)(((byte)(148)))));
             this.vpk_textbox.Location = new System.Drawing.Point(102, 63);
             this.vpk_textbox.Name = "vpk_textbox";
             this.vpk_textbox.ReadOnly = true;
-            this.vpk_textbox.Size = new System.Drawing.Size(605, 20);
+            this.vpk_textbox.Size = new System.Drawing.Size(605, 21);
             this.vpk_textbox.TabIndex = 7;
             // 
             // browse_vpk
             // 
+            this.browse_vpk.ForeColor = System.Drawing.Color.White;
             this.browse_vpk.Location = new System.Drawing.Point(713, 61);
             this.browse_vpk.Name = "browse_vpk";
             this.browse_vpk.Size = new System.Drawing.Size(75, 23);
@@ -102,6 +106,7 @@ namespace MapScrubber {
             // 
             // browse_map
             // 
+            this.browse_map.ForeColor = System.Drawing.Color.White;
             this.browse_map.Location = new System.Drawing.Point(713, 3);
             this.browse_map.Name = "browse_map";
             this.browse_map.Size = new System.Drawing.Size(75, 23);
@@ -124,11 +129,12 @@ namespace MapScrubber {
             // map_textbox
             // 
             this.map_textbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
-            this.map_textbox.ForeColor = System.Drawing.Color.White;
+            this.map_textbox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.map_textbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(170)))), ((int)(((byte)(148)))));
             this.map_textbox.Location = new System.Drawing.Point(102, 6);
             this.map_textbox.Name = "map_textbox";
             this.map_textbox.ReadOnly = true;
-            this.map_textbox.Size = new System.Drawing.Size(605, 20);
+            this.map_textbox.Size = new System.Drawing.Size(605, 21);
             this.map_textbox.TabIndex = 9;
             // 
             // packAssets
@@ -155,6 +161,7 @@ namespace MapScrubber {
             // 
             // progressBar
             // 
+            this.progressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
             this.progressBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(182)))), ((int)(((byte)(82)))));
             this.progressBar.Location = new System.Drawing.Point(12, 421);
             this.progressBar.Name = "progressBar";

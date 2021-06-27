@@ -73,7 +73,6 @@
     <Compile Include="AppForm.Designer.cs">
       <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AssetScrubber.cs" />
     <Compile Include="AssetCleaner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
