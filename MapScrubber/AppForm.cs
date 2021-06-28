@@ -27,30 +27,7 @@ namespace MapScrubber {
 
 		}
 
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
-		static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
-
-		[System.Runtime.InteropServices.DllImport("User32.dll")]
-
-		private static extern IntPtr GetWindowDC(IntPtr hWnd);
-
-		protected override void WndProc(ref System.Windows.Forms.Message m) {
-			const int WM_NCPAINT = 0x85;
-			base.WndProc(ref m);
-
-			if(m.Msg == WM_NCPAINT) {
-
-				IntPtr hdc = GetWindowDC(m.HWnd);
-				if((int)hdc != 0) {
-					Graphics g = Graphics.FromHdc(hdc);
-					g.DrawLine(Pens.Green, 10, 10, 100, 10);
-					g.Flush();
-					ReleaseDC(m.HWnd, hdc);
-				}
-
-			}
-
-		}
+		
 
 		public ProgressBar bar {
 			get {
@@ -83,6 +60,7 @@ namespace MapScrubber {
 			OpenFileDialog choofdlog = new OpenFileDialog();
 			choofdlog.Filter = "VMAP Files (*.vmap*)|*.vmap*";
 			choofdlog.FilterIndex = 1;
+			choofdlog.Title = "Select your s&box VMAP";
 			choofdlog.Multiselect = false;
 
 
@@ -95,7 +73,7 @@ namespace MapScrubber {
 		private void browse_vpk_Click(object sender, EventArgs e) {
 			using(var openFileDialog = new CommonOpenFileDialog() { IsFolderPicker = true }) {
 				openFileDialog.RestoreDirectory = true;
-				openFileDialog.Title = "Select Your S&box Directory";
+				openFileDialog.Title = "Select Your s&box Directory";
 
 				if(openFileDialog.ShowDialog() == CommonFileDialogResult.Ok) {
 					vpk_textbox.Text = openFileDialog.FileName;
