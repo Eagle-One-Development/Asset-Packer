@@ -94,13 +94,13 @@ namespace MapScrubber {
 
 		public StringRedir(ref RichTextBox textBox) {
 			outBox = textBox;
-			outBox.SelectionStart = textBox.Text.Length;
+			outBox.SelectionStart = outBox.Text.Length;
 			outBox.ScrollToCaret();
 		}
 
 		public override void WriteLine(string x) {
 			outBox.Text += x + "\n";
-			outBox.SelectionStart = textBox.Text.Length;
+			outBox.SelectionStart = outBox.Text.Length;
 			outBox.ScrollToCaret();
 			outBox.Refresh();
 		}
