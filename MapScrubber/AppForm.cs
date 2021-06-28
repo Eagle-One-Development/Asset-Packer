@@ -74,7 +74,7 @@ namespace MapScrubber {
 			var sboxDir = vpk_textbox.Text;
 			var vmapDir = map_textbox.Text;
 			
-			if(!Directory.Exists(vmapDir)) {
+			if(!File.Exists(vmapDir)) {
 				MessageBox.Show("Vmap directory path invalid!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
