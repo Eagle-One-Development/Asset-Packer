@@ -12,16 +12,16 @@ namespace MapScrubber {
 	public class AssetCleaner {
 
 		public static HashSet<string> assets = new HashSet<string>();
-		private static string assetPath;
+		private string assetPath;
 		public string outputDirectory;
 		private string vpkDirectory;
 		private string vmapFile;
 		public AppForm parentForm;
 
-		public AssetCleaner(string assetDir, string sboxDir, string vmapDir) {
-			assetPath = assetDir;
-			vpkDirectory = sboxDir;
-			vmapFile = vmapDir;
+		public AssetCleaner(string assetDir, string sboxDir, string vmapFile) {
+			this.assetPath = assetDir;
+			this.vpkDirectory = sboxDir;
+			this.vmapFile = vmapFile;
 			outputDirectory = Path.GetDirectoryName(vmapFile) + "\\" + Path.GetFileNameWithoutExtension(vmapFile);
 			Directory.CreateDirectory(outputDirectory);
 		}
@@ -152,7 +152,7 @@ namespace MapScrubber {
 			PackVPK();
 		}
 
-		public static void GetAssetsFromModel(string item) {
+		public void GetAssetsFromModel(string item) {
 			try {
 				var modelData = File.ReadAllBytes($"{assetPath}\\{item}_c");
 				AddAsset(item); // add vmdl_c
@@ -168,7 +168,7 @@ namespace MapScrubber {
 			}
 		}
 
-		public static void GetAssetsFromMaterial(string item) {
+		public void GetAssetsFromMaterial(string item) {
 			try {
 				var materialData = File.ReadAllBytes($"{assetPath}\\{item}_c");
 				AddAsset(item); // add vmat_c

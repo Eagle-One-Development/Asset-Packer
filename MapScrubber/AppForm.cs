@@ -72,10 +72,10 @@ namespace MapScrubber {
 		private void packAssets_Click(object sender, EventArgs e) {
 			var assetDir = asset_textbox.Text;
 			var sboxDir = vpk_textbox.Text;
-			var vmapDir = map_textbox.Text;
+			var vmapFile = map_textbox.Text;
 			
-			if(!File.Exists(vmapDir)) {
-				MessageBox.Show("Vmap directory path invalid!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if(!File.Exists(vmapFile)) {
+				MessageBox.Show("Vmap file path invalid!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 			if(!Directory.Exists(assetDir)) {
@@ -88,7 +88,7 @@ namespace MapScrubber {
 			}
 
 			consoleTextbox.Clear();
-			AssetCleaner cleaner = new AssetCleaner(assetDir, sboxDir, vmapDir);
+			AssetCleaner cleaner = new AssetCleaner(assetDir, sboxDir, vmapFile);
 			cleaner.parentForm = this;
 			cleaner.GetAssets();
 		}
