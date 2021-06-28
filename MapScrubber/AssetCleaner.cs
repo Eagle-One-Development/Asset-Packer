@@ -41,9 +41,10 @@ namespace MapScrubber {
 			foreach(var item in map.SplitNull()) {
 				if(item.EndsWith("vmat")) {
 					GetAssetsFromMaterial(item);
-				}
-				if(item.EndsWith("vmdl")) {
+				}else if(item.EndsWith("vmdl")) {
 					GetAssetsFromModel(item);
+				} else if (item.EndsWith("vmap")) {
+					GetAssetsFromMap(item);
 				}
 			}
 
@@ -152,6 +153,36 @@ namespace MapScrubber {
 			PackVPK();
 		}
 
+		public void GetAssetsFromMap(string map) {
+			var mapFile = CleanAssetPath(map);
+			var mapsIndex = vmapFile.LastIndexOf("maps");
+			var mapDir = vmapFile.Substring(0, mapsIndex);
+			//Console.WriteLine($@"FOUND MAP REFERENCE {mapDir}{mapFile}");
+			try {
+				var mapData = File.ReadAllBytes($"{mapDir}{mapFile}");
+				var mapReference = AssetFile.From(mapData);
+				var splitStrings = mapReference.SplitNull();
+
+				for(var i = 0; i < splitStrings.Length; i++) {
+					var item = splitStrings[i];
+					if(item == "mapUsageType") {
+						if(splitStrings[i + 1] == "skybox") { // skybox map type
+							mapReference.TrimAssetList(); // trim it to the space where assets are actually referenced, using "map_assets_references" markers
+							foreach(var item2 in mapReference.SplitNull()) {
+								if(item2.EndsWith("vmat")) {
+									GetAssetsFromMaterial(item2);
+								} else if(item2.EndsWith("vmdl")) {
+									GetAssetsFromModel(item2);
+								}
+							}
+						}
+					}
+				}
+			} catch {
+				// asset not in asset directory or not found
+			}
+		}
+
 		public void GetAssetsFromModel(string item) {
 			try {
 				var modelData = File.ReadAllBytes($"{assetPath}\\{item}_c");
@@ -185,9 +216,18 @@ namespace MapScrubber {
 
 		public static void AddAsset(string item) {
 			// basic clean
+			var asset = CleanAssetPath(item);
+
+			if(!(asset.StartsWith("models") || asset.StartsWith("materials") || asset.StartsWith("textures") && asset.EndsWith("_c"))) {
+				// make sure the file is an asset file as we'd want it
+				return;
+			}
+			assets.Add(asset);
+		}
+
+		public static string CleanAssetPath(string item) {
 			var asset = item.Replace("\r\n", "").Replace("\r", "").Replace("\n", "").Replace("/", "\\");
 
-			// compiled formats
 			if(asset.EndsWith("vmat")) {
 				asset = asset.Replace(".vmat", ".vmat_c");
 			} else if(asset.EndsWith("vmdl")) {
@@ -195,12 +235,7 @@ namespace MapScrubber {
 			} else if(asset.EndsWith("vtex")) {
 				asset = asset.Replace(".vtex", ".vtex_c");
 			}
-
-			if(!(asset.StartsWith("models") || asset.StartsWith("materials") || asset.StartsWith("textures") && asset.EndsWith("_c"))) {
-				// make sure the file is an asset file as we'd want it
-				return;
-			}
-			assets.Add(asset);
+			return asset;
 		}
 	}
 

@@ -197,7 +197,7 @@ namespace MapScrubber {
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AppForm";
-            this.Text = "s&box Map asset packer";
+            this.Text = "s&box Map Asset Packer";
             this.ResumeLayout(false);
             this.PerformLayout();
 
