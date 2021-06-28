@@ -44,7 +44,7 @@ namespace MapScrubber {
 				}else if(item.EndsWith("vmdl")) {
 					GetAssetsFromModel(item);
 				} else if (item.EndsWith("vmap")) {
-					GetAssetsFromMap(item);
+					GetSkyboxAssets(item);
 				}
 			}
 
@@ -153,28 +153,19 @@ namespace MapScrubber {
 			PackVPK();
 		}
 
-		public void GetAssetsFromMap(string map) {
-			var mapFile = CleanAssetPath(map);
-			var mapsIndex = vmapFile.LastIndexOf("maps");
-			var mapDir = vmapFile.Substring(0, mapsIndex);
-			//Console.WriteLine($@"FOUND MAP REFERENCE {mapDir}{mapFile}");
+		public void GetSkyboxAssets(string map) {
+			map = CleanAssetPath(map);
+			var mapDir = vmapFile.Substring(0, vmapFile.LastIndexOf("maps"));
 			try {
-				var mapData = File.ReadAllBytes($"{mapDir}{mapFile}");
-				var mapReference = AssetFile.From(mapData);
-				var splitStrings = mapReference.SplitNull();
-
-				for(var i = 0; i < splitStrings.Length; i++) {
-					var item = splitStrings[i];
-					if(item == "mapUsageType") {
-						if(splitStrings[i + 1] == "skybox") { // skybox map type
-							mapReference.TrimAssetList(); // trim it to the space where assets are actually referenced, using "map_assets_references" markers
-							foreach(var item2 in mapReference.SplitNull()) {
-								if(item2.EndsWith("vmat")) {
-									GetAssetsFromMaterial(item2);
-								} else if(item2.EndsWith("vmdl")) {
-									GetAssetsFromModel(item2);
-								}
-							}
+				var mapReference = AssetFile.From(File.ReadAllBytes($"{mapDir}{map}"));
+				if(mapReference.IsMapSkybox()) {
+					//Console.WriteLine($"3D Skybox reference found {map}");
+					mapReference.TrimAssetList();
+					foreach(var item in mapReference.SplitNull()) {
+						if(item.EndsWith("vmat")) {
+							GetAssetsFromMaterial(item);
+						} else if(item.EndsWith("vmdl")) {
+							GetAssetsFromModel(item);
 						}
 					}
 				}
@@ -257,6 +248,20 @@ namespace MapScrubber {
 			var end = assetReference.LastIndexOf(marker);
 			var output = assetReference.Substring(start, end - start);
 			return output;
+		}
+
+		public bool IsMapSkybox() {
+			var splitStrings = this.SplitNull();
+
+			for(var i = 0; i < splitStrings.Length; i++) {
+				var item = splitStrings[i];
+				if(item == "mapUsageType") {
+					if(splitStrings[i + 1] == "skybox") { // skybox map type
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 	}
 }
