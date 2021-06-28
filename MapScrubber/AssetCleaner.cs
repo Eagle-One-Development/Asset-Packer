@@ -253,6 +253,8 @@ namespace MapScrubber {
 				asset = asset.Replace(".vtex", ".vtex_c");
 			} else if (asset.EndsWith("vpcf")) {
 				asset = asset.Replace(".vpcf", ".vpcf_c");
+			} else if(asset.EndsWith("vsnd")) {
+				asset = asset.Replace(".vsnd", ".vsnd_c");
 			}
 			return asset;
 		}
