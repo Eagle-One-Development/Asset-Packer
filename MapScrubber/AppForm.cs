@@ -13,7 +13,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MapScrubber {
 
-
+	
 
 
 	public partial class AppForm : Form {
@@ -22,12 +22,23 @@ namespace MapScrubber {
 			TextWriter tmp = Console.Out; // Save the current console TextWriter. 
 			StringRedir r = new StringRedir(ref consoleTextbox);
 			Console.SetOut(r); // Set console output to the StringRedir class. 
-			progressBar.Value = 50;
+			
 
 			
 
 
 		}
+
+		public ProgressBar bar {
+			get {
+				return progressBar;
+			}
+
+			set {
+				progressBar = value;
+			}
+		}
+
 
 
 			
@@ -72,6 +83,7 @@ namespace MapScrubber {
 		private void packAssets_Click(object sender, EventArgs e) {
 			consoleTextbox.Clear();
 			AssetCleaner cleaner = new AssetCleaner(asset_textbox.Text, vpk_textbox.Text, map_textbox.Text);
+			cleaner.parentForm = this;
 			cleaner.GetAssets();
 		}
 	}
@@ -81,6 +93,8 @@ namespace MapScrubber {
 
 		public StringRedir(ref RichTextBox textBox) {
 			outBox = textBox;
+			textBox.SelectionStart = textBox.Text.Length;
+			textBox.ScrollToCaret();
 		}
 
 		public override void WriteLine(string x) {

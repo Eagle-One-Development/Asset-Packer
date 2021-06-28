@@ -15,6 +15,7 @@ namespace MapScrubber {
 		public string outputDirectory;
 		private string vpkDirectory;
 		private string vmapFile;
+		public AppForm parentForm;
 
 		public AssetCleaner(string a, string vp, string vm) {
 			assetPath = a;
@@ -25,6 +26,9 @@ namespace MapScrubber {
 		}
 
 		public void GetAssets() {
+
+			parentForm.bar.Value = 10;
+
 			// path where the map is
 			string pathToMap = vmapFile;
 
@@ -42,10 +46,14 @@ namespace MapScrubber {
 				}
 			}
 
+			parentForm.bar.Value = 30;
+
 			Console.WriteLine("Found assets:");
 			foreach(var asset in assets) {
 				Console.WriteLine($"\t{asset}");
 			}
+
+			parentForm.bar.Value = 40;
 			CopyFiles();
 		}
 
@@ -54,9 +62,13 @@ namespace MapScrubber {
 			string command = @"""" + vmapFile.Replace(".vmap", ".vpk") + @"""";
 			ExecuteCommandSync(command);
 
+			parentForm.bar.Value = 95;
+
 
 			command = @"""" + outputDirectory + @"""";
 			ExecuteCommandSync(command);
+
+			parentForm.bar.Value = 0;
 
 			Directory.Delete(outputDirectory, true);
 		}
@@ -98,8 +110,12 @@ namespace MapScrubber {
 		}
 
 		public void CopyFiles() {
-			foreach(string asset in assets) {
 
+			int index = 0;
+			foreach(string asset in assets) {
+				index++;
+
+				parentForm.bar.Value = 40 + 30 * (int)Math.Round(index / (float)assets.Count);
 
 				string fileName = asset;
 
