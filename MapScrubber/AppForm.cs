@@ -47,7 +47,7 @@ namespace MapScrubber {
 		private void browse_asset_Click(object sender, EventArgs e) {
 			using(var openFileDialog = new CommonOpenFileDialog() { IsFolderPicker = true }) {
 				openFileDialog.RestoreDirectory = true;
-				openFileDialog.Title = "Select Your Asset Directory";
+				openFileDialog.Title = "Select your asset directory.";
 
 				if(openFileDialog.ShowDialog() == CommonFileDialogResult.Ok) {
 					asset_textbox.Text = openFileDialog.FileName;
@@ -58,9 +58,9 @@ namespace MapScrubber {
 
 		private void browse_map_Click(object sender, EventArgs e) {
 			OpenFileDialog choofdlog = new OpenFileDialog();
-			choofdlog.Filter = "VMAP Files (*.vmap*)|*.vmap*";
+			choofdlog.Filter = "Vmap Files (*.vmap*)|*.vmap*";
 			choofdlog.FilterIndex = 1;
-			choofdlog.Title = "Select your s&box VMAP";
+			choofdlog.Title = "Select your s&box vmap.";
 			choofdlog.Multiselect = false;
 
 
@@ -73,7 +73,7 @@ namespace MapScrubber {
 		private void browse_vpk_Click(object sender, EventArgs e) {
 			using(var openFileDialog = new CommonOpenFileDialog() { IsFolderPicker = true }) {
 				openFileDialog.RestoreDirectory = true;
-				openFileDialog.Title = "Select Your s&box Directory";
+				openFileDialog.Title = "Select your s&box directory.";
 
 				if(openFileDialog.ShowDialog() == CommonFileDialogResult.Ok) {
 					vpk_textbox.Text = openFileDialog.FileName;

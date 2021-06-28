@@ -67,21 +67,23 @@ namespace MapScrubber {
 
 		public void PackVPK() {
 			vpkDirectory += "\\bin\\win64\\vpk.exe";
+			
+			//execute vpk file.vpk to extract
 			string command = @"""" + vmapFile.Replace(".vmap", ".vpk") + @"""";
 			ExecuteCommandSync(command);
-
 			parentForm.bar.Value = 95;
 
-
+			// execute vpk outputDirectory to repack
 			command = @"""" + outputDirectory + @"""";
 			ExecuteCommandSync(command);
-
 			parentForm.bar.Value = 0;
 
+			// delete temp directory
 			Directory.Delete(outputDirectory, true);
 
 			SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 			player.Play();
+			Console.WriteLine("Asset pack completed.");
 			MessageBox.Show("VPK Successfully Completed", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -131,16 +133,6 @@ namespace MapScrubber {
 
 				string fileName = asset;
 
-				if(!fileName.Contains(".vmat_c")) {
-					fileName = fileName.Replace(".vmat", ".vmat_c");
-				}
-
-				if(!fileName.Contains(".vmdl_c")) {
-					fileName = fileName.Replace(".vmdl", ".vmdl_c");
-				}
-				fileName = fileName.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
-				fileName = fileName.Replace("/", "\\");
-
 				string source = Path.Combine(assetPath, fileName);
 				string destination = Path.Combine(outputDirectory, fileName);
 				string directory = destination.Substring(0, destination.LastIndexOf("\\"));
@@ -154,50 +146,60 @@ namespace MapScrubber {
 					}
 
 				} catch(DirectoryNotFoundException) {
-					Console.WriteLine($"{source} cannot be copied to {destination} because the directory of the source file does not exist. \n Likely the file isn't in the provided asset directory. ");
+					Console.WriteLine($"{asset} could not be found in your asset directory.");
 				}
 			}
-
 			PackVPK();
-
 		}
 
 		public static void GetAssetsFromModel(string item) {
 			try {
 				var modelData = File.ReadAllBytes($"{assetPath}\\{item}_c");
-				assets.Add($"{item}_c"); // add vmdl_c
+				AddAsset(item); // add vmdl_c
 				var material = AssetFile.From(modelData);
 				foreach(var matItem in material.SplitNull()) {
 					if(matItem.EndsWith("vmat")) {
-						AddAsset($"{matItem}_c"); // add vmat_c referenced by the vmdl_c
+						AddAsset(matItem); // add vmat_c referenced by the vmdl_c
 						GetAssetsFromMaterial(matItem); // add vtex_c referenced by the vmat_c
 					}
 				}
 			} catch {
-				//Console.WriteLine($"{item}\t [NOT FOUND]");
+				// asset not in asset directory or not found
 			}
 		}
 
 		public static void GetAssetsFromMaterial(string item) {
 			try {
 				var materialData = File.ReadAllBytes($"{assetPath}\\{item}_c");
-				assets.Add($"{item}_c"); // add vmat_c
+				AddAsset(item); // add vmat_c
 				var material = AssetFile.From(materialData);
 				foreach(var texItem in material.SplitNull()) {
 					if(texItem.EndsWith("vtex")) {
-						AddAsset($"{texItem}_c"); // add vtex_c referenced by the vmat_c
+						AddAsset(texItem); // add vtex_c referenced by the vmat_c
 					}
 				}
 			} catch {
-				//Console.WriteLine($"{item}\t [NOT FOUND]");
+				// asset not in asset directory or not found
 			}
 		}
 
 		public static void AddAsset(string item) {
 			// basic clean
-			var asset = item.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
-			if(!(item.StartsWith("models") || item.StartsWith("materials") || item.StartsWith("textures")))
+			var asset = item.Replace("\r\n", "").Replace("\r", "").Replace("\n", "").Replace("/", "\\");
+
+			// compiled formats
+			if(asset.EndsWith("vmat")) {
+				asset = asset.Replace(".vmat", ".vmat_c");
+			} else if(asset.EndsWith("vmdl")) {
+				asset = asset.Replace(".vmdl", ".vmdl_c");
+			} else if(asset.EndsWith("vtex")) {
+				asset = asset.Replace(".vtex", ".vtex_c");
+			}
+
+			if(!(asset.StartsWith("models") || asset.StartsWith("materials") || asset.StartsWith("textures") && asset.EndsWith("_c"))) {
+				// make sure the file is an asset file as we'd want it
 				return;
+			}
 			assets.Add(asset);
 		}
 	}
