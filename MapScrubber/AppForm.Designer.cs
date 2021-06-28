@@ -80,9 +80,9 @@ namespace MapScrubber {
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(12, 66);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 13);
+            this.label3.Size = new System.Drawing.Size(81, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "S&box Directory:";
+            this.label3.Text = "s&box Directory:";
             // 
             // vpk_textbox
             // 
