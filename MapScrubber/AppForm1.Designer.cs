@@ -59,14 +59,5 @@ namespace MapScrubber {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        public static System.IO.UnmanagedMemoryStream steam_message {
-            get {
-                return ResourceManager.GetStream("steam-message", resourceCulture);
-            }
-        }
     }
 }

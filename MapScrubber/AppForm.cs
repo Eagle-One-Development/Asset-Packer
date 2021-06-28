@@ -27,7 +27,30 @@ namespace MapScrubber {
 
 		}
 
-		
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+		[System.Runtime.InteropServices.DllImport("User32.dll")]
+
+		private static extern IntPtr GetWindowDC(IntPtr hWnd);
+
+		protected override void WndProc(ref System.Windows.Forms.Message m) {
+			const int WM_NCPAINT = 0x85;
+			base.WndProc(ref m);
+
+			if(m.Msg == WM_NCPAINT) {
+
+				IntPtr hdc = GetWindowDC(m.HWnd);
+				if((int)hdc != 0) {
+					Graphics g = Graphics.FromHdc(hdc);
+					g.DrawLine(Pens.Green, 10, 10, 100, 10);
+					g.Flush();
+					ReleaseDC(m.HWnd, hdc);
+				}
+
+			}
+
+		}
 
 		public ProgressBar bar {
 			get {
