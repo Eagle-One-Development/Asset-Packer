@@ -24,6 +24,7 @@ namespace MapScrubber {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
             this.asset_textbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.browse_asset = new System.Windows.Forms.Button();
@@ -41,12 +42,13 @@ namespace MapScrubber {
             // asset_textbox
             // 
             this.asset_textbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
+            this.asset_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.asset_textbox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.asset_textbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(170)))), ((int)(((byte)(148)))));
             this.asset_textbox.Location = new System.Drawing.Point(102, 35);
             this.asset_textbox.Name = "asset_textbox";
             this.asset_textbox.ReadOnly = true;
-            this.asset_textbox.Size = new System.Drawing.Size(605, 21);
+            this.asset_textbox.Size = new System.Drawing.Size(605, 14);
             this.asset_textbox.TabIndex = 0;
             // 
             // label1
@@ -85,12 +87,13 @@ namespace MapScrubber {
             // vpk_textbox
             // 
             this.vpk_textbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
+            this.vpk_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.vpk_textbox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vpk_textbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(170)))), ((int)(((byte)(148)))));
             this.vpk_textbox.Location = new System.Drawing.Point(102, 63);
             this.vpk_textbox.Name = "vpk_textbox";
             this.vpk_textbox.ReadOnly = true;
-            this.vpk_textbox.Size = new System.Drawing.Size(605, 21);
+            this.vpk_textbox.Size = new System.Drawing.Size(605, 14);
             this.vpk_textbox.TabIndex = 7;
             // 
             // browse_vpk
@@ -129,12 +132,13 @@ namespace MapScrubber {
             // map_textbox
             // 
             this.map_textbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
+            this.map_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.map_textbox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.map_textbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(165)))), ((int)(((byte)(170)))), ((int)(((byte)(148)))));
             this.map_textbox.Location = new System.Drawing.Point(102, 6);
             this.map_textbox.Name = "map_textbox";
             this.map_textbox.ReadOnly = true;
-            this.map_textbox.Size = new System.Drawing.Size(605, 21);
+            this.map_textbox.Size = new System.Drawing.Size(605, 14);
             this.map_textbox.TabIndex = 9;
             // 
             // packAssets
@@ -151,6 +155,7 @@ namespace MapScrubber {
             // consoleTextbox
             // 
             this.consoleTextbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
+            this.consoleTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.consoleTextbox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consoleTextbox.Location = new System.Drawing.Point(12, 149);
             this.consoleTextbox.Name = "consoleTextbox";
@@ -186,6 +191,7 @@ namespace MapScrubber {
             this.Controls.Add(this.browse_asset);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.asset_textbox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AppForm";
             this.Text = "S&Box VPK Packer";
             this.ResumeLayout(false);

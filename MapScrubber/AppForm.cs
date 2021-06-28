@@ -24,9 +24,13 @@ namespace MapScrubber {
 			Console.SetOut(r); // Set console output to the StringRedir class. 
 			progressBar.Value = 50;
 
+			
+
 
 		}
 
+
+			
 
 
 		private void browse_asset_Click(object sender, EventArgs e) {
