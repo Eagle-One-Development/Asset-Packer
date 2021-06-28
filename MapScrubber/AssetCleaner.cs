@@ -41,8 +41,10 @@ namespace MapScrubber {
 			foreach(var item in map.SplitNull()) {
 				if(item.EndsWith("vmat")) {
 					GetAssetsFromMaterial(item);
-				}else if(item.EndsWith("vmdl")) {
+				} else if(item.EndsWith("vmdl")) {
 					GetAssetsFromModel(item);
+				} else if(item.EndsWith("vpcf")) {
+					GetAssetsFromParticle(item);
 				} else if (item.EndsWith("vmap")) {
 					GetSkyboxAssets(item);
 				}
@@ -125,6 +127,7 @@ namespace MapScrubber {
 		}
 
 		public void CopyFiles() {
+			Console.WriteLine("\nAssets packed: ");
 
 			int index = 0;
 			foreach(string asset in assets) {
@@ -142,12 +145,14 @@ namespace MapScrubber {
 					if(File.Exists(source)) {
 						Directory.CreateDirectory(directory);
 						File.Copy(source, destination, true);
+						Console.WriteLine($"\t{asset}");
 					} else {
-						Console.WriteLine($"{source} could not be found and was not copied");
+						//Console.WriteLine($"{source} could not be found and was not copied");
+						// asset is in core files, ignore
 					}
 
 				} catch(DirectoryNotFoundException) {
-					Console.WriteLine($"{asset} could not be found in your asset directory.");
+					Console.WriteLine($"{asset} could not be found or is missing");
 				}
 			}
 			PackVPK();
@@ -205,11 +210,32 @@ namespace MapScrubber {
 			}
 		}
 
+		public void GetAssetsFromParticle(string item) {
+			try {
+				var materialData = File.ReadAllBytes($"{assetPath}\\{item}_c");
+				AddAsset(item); // add vpcf_c
+				var material = AssetFile.From(materialData);
+				foreach(var assetItem in material.SplitNull()) {
+					if(assetItem.EndsWith("vtex")) {
+						AddAsset(assetItem); // add vtex_c referenced by the vpcf_c
+					} else if (assetItem.EndsWith("vmat")) {
+						GetAssetsFromMaterial(assetItem);
+					} else if(assetItem.EndsWith("vmdl")) {
+						GetAssetsFromModel(assetItem);
+					} else if(assetItem.EndsWith("vpcf")) {
+						GetAssetsFromParticle(assetItem);
+					}
+				}
+			} catch {
+				// asset not in asset directory or not found
+			}
+		}
+
 		public static void AddAsset(string item) {
 			// basic clean
 			var asset = CleanAssetPath(item);
 
-			if(!(asset.StartsWith("models") || asset.StartsWith("materials") || asset.StartsWith("textures") && asset.EndsWith("_c"))) {
+			if(!(asset.EndsWith("_c"))) {
 				// make sure the file is an asset file as we'd want it
 				return;
 			}
@@ -225,6 +251,8 @@ namespace MapScrubber {
 				asset = asset.Replace(".vmdl", ".vmdl_c");
 			} else if(asset.EndsWith("vtex")) {
 				asset = asset.Replace(".vtex", ".vtex_c");
+			} else if (asset.EndsWith("vpcf")) {
+				asset = asset.Replace(".vpcf", ".vpcf_c");
 			}
 			return asset;
 		}
