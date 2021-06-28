@@ -73,7 +73,7 @@ namespace MapScrubber {
 
 			Directory.Delete(outputDirectory, true);
 
-			SoundPlayer player = new SoundPlayer(MapScrubber.AppForm1.ResourceManager.GetStream("steam-message"));
+			SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 			player.Play();
 			MessageBox.Show("VPK Successfully Completed", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
