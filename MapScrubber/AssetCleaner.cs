@@ -49,8 +49,15 @@ namespace MapScrubber {
 
 			parentForm.bar.Value = 30;
 
-			Console.WriteLine("Found assets:");
-			foreach(var asset in assets) {
+			if(assets.Count > 0) {
+				Console.WriteLine("Found assets:");
+			} else {
+				Console.WriteLine("No assets found!");
+				parentForm.bar.Value = 0;
+				MessageBox.Show("No assets could be found!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+			foreach(string asset in assets) {
 				Console.WriteLine($"\t{asset}");
 			}
 
@@ -108,7 +115,7 @@ namespace MapScrubber {
 				// Get the output into a string
 				string result = proc.StandardOutput.ReadToEnd();
 				// Display the command output.
-				Console.WriteLine(result);
+				//Console.WriteLine(result);
 			} catch {
 				// Log the exception
 			}
