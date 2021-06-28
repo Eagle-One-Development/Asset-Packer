@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using Microsoft.WindowsAPICodePack;
 using Microsoft.WindowsAPICodePack.Dialogs;
-
+using System.Media;
 namespace MapScrubber {
 
 	
@@ -22,12 +22,12 @@ namespace MapScrubber {
 			TextWriter tmp = Console.Out; // Save the current console TextWriter. 
 			StringRedir r = new StringRedir(ref consoleTextbox);
 			Console.SetOut(r); // Set console output to the StringRedir class. 
-			
 
-			
 
 
 		}
+
+		
 
 		public ProgressBar bar {
 			get {

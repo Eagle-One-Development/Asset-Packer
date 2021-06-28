@@ -158,6 +158,7 @@ namespace MapScrubber {
             this.consoleTextbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(69)))), ((int)(((byte)(49)))));
             this.consoleTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.consoleTextbox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.consoleTextbox.ForeColor = System.Drawing.Color.White;
             this.consoleTextbox.Location = new System.Drawing.Point(12, 149);
             this.consoleTextbox.Name = "consoleTextbox";
             this.consoleTextbox.ReadOnly = true;

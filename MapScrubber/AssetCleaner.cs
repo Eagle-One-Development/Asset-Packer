@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using System.Media;
 
 namespace MapScrubber {
 	public class AssetCleaner {
@@ -71,6 +72,10 @@ namespace MapScrubber {
 			parentForm.bar.Value = 0;
 
 			Directory.Delete(outputDirectory, true);
+
+			SoundPlayer player = new SoundPlayer(MapScrubber.AppForm1.ResourceManager.GetStream("steam-message"));
+			player.Play();
+			MessageBox.Show("VPK Successfully Completed", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		public void ExecuteCommandAsync(string command) {
