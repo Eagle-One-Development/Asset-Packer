@@ -22,12 +22,7 @@ namespace MapScrubber {
 			TextWriter tmp = Console.Out; // Save the current console TextWriter. 
 			StringRedir r = new StringRedir(ref consoleTextbox);
 			Console.SetOut(r); // Set console output to the StringRedir class. 
-
-
-
 		}
-
-		
 
 		public ProgressBar bar {
 			get {
@@ -39,11 +34,6 @@ namespace MapScrubber {
 			}
 		}
 
-
-
-			
-
-
 		private void browse_asset_Click(object sender, EventArgs e) {
 			using(var openFileDialog = new CommonOpenFileDialog() { IsFolderPicker = true }) {
 				openFileDialog.RestoreDirectory = true;
@@ -53,7 +43,6 @@ namespace MapScrubber {
 					asset_textbox.Text = openFileDialog.FileName;
 				}
 			}
-
 		}
 
 		private void browse_map_Click(object sender, EventArgs e) {
@@ -62,7 +51,6 @@ namespace MapScrubber {
 			choofdlog.FilterIndex = 1;
 			choofdlog.Title = "Select your s&box vmap.";
 			choofdlog.Multiselect = false;
-
 
 			if(choofdlog.ShowDialog() == DialogResult.OK) {
 				this.map_textbox.Text = choofdlog.FileName;
@@ -82,8 +70,25 @@ namespace MapScrubber {
 		}
 
 		private void packAssets_Click(object sender, EventArgs e) {
+			var assetDir = asset_textbox.Text;
+			var sboxDir = vpk_textbox.Text;
+			var vmapDir = map_textbox.Text;
+			
+			if(!Directory.Exists(vmapDir)) {
+				MessageBox.Show("Vmap directory path invalid!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+			if(!Directory.Exists(assetDir)) {
+				MessageBox.Show("Asset directory path invalid!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+			if(!Directory.Exists(sboxDir)) {
+				MessageBox.Show("s&box directory path invalid!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
 			consoleTextbox.Clear();
-			AssetCleaner cleaner = new AssetCleaner(asset_textbox.Text, vpk_textbox.Text, map_textbox.Text);
+			AssetCleaner cleaner = new AssetCleaner(assetDir, sboxDir, vmapDir);
 			cleaner.parentForm = this;
 			cleaner.GetAssets();
 		}

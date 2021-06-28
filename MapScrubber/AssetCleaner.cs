@@ -18,10 +18,10 @@ namespace MapScrubber {
 		private string vmapFile;
 		public AppForm parentForm;
 
-		public AssetCleaner(string a, string vp, string vm) {
-			assetPath = a;
-			vpkDirectory = vp;
-			vmapFile = vm;
+		public AssetCleaner(string assetDir, string sboxDir, string vmapDir) {
+			assetPath = assetDir;
+			vpkDirectory = sboxDir;
+			vmapFile = vmapDir;
 			outputDirectory = Path.GetDirectoryName(vmapFile) + "\\" + Path.GetFileNameWithoutExtension(vmapFile);
 			Directory.CreateDirectory(outputDirectory);
 		}
