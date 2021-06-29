@@ -223,7 +223,8 @@ namespace MapScrubber {
 					} else if(assetItem.EndsWith("vmdl")) {
 						GetAssetsFromModel(assetItem);
 					} else if(assetItem.EndsWith("vpcf")) {
-						GetAssetsFromParticle(assetItem);
+						if(!(item == assetItem)) // if there's a self reference in the particle for some reason
+							GetAssetsFromParticle(assetItem);
 					}
 				}
 			} catch {
