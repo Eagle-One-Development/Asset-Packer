@@ -1,6 +1,6 @@
 # Asset-Packer
 
-A program that cleans up and packs VPKs and their assets for maps.
+A program that packs or isolates compiled assets used in a Map.
 
 # Current Features:
 
