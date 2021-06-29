@@ -7,7 +7,7 @@
     <ProjectGuid>{07817566-E70C-4F15-8A18-A601288E0458}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MapScrubber</RootNamespace>
-    <AssemblyName>MapScrubber</AssemblyName>
+    <AssemblyName>VPK Asset Packer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,6 +34,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -97,6 +100,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.ico" />
     <Content Include="license.txt" />
     <Content Include="steam-message.wav" />
     <Content Include="Windows Logo.png" />
