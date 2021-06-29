@@ -6,3 +6,4 @@ Current Features:
 * 3D Skybox map and asset detection
 * Materials, textures, particles and Models are detected and packed
 * Crashes s&box if it's running during packing :)
+* Broken size on some display scales
