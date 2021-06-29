@@ -86,7 +86,7 @@ namespace MapScrubber {
 
 			SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 			player.Play();
-			Console.WriteLine("Asset pack completed.");
+			Console.WriteLine("\nAsset pack completed.");
 			MessageBox.Show("VPK Successfully Completed", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
 		}
 

@@ -13,7 +13,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Media;
 namespace MapScrubber {
 
-	
+
 
 
 	public partial class AppForm : Form {
@@ -73,7 +73,7 @@ namespace MapScrubber {
 			var assetDir = asset_textbox.Text;
 			var sboxDir = vpk_textbox.Text;
 			var vmapFile = map_textbox.Text;
-			
+
 			if(!File.Exists(vmapFile)) {
 				MessageBox.Show("Vmap file path invalid!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
@@ -91,6 +91,34 @@ namespace MapScrubber {
 			AssetCleaner cleaner = new AssetCleaner(assetDir, sboxDir, vmapFile);
 			cleaner.parentForm = this;
 			cleaner.GetAssets();
+		}
+
+		private void label2_Click(object sender, EventArgs e) {
+
+		}
+
+		private void pictureBox1_Click(object sender, EventArgs e) {
+
+		}
+
+		private void label5_Click(object sender, EventArgs e) {
+
+		}
+
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			System.Diagnostics.Process.Start("https://github.com/Eagle-One-Development/Asset-Packer");
+		}
+
+		private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			System.Diagnostics.Process.Start("https://discord.com/invite/eagleonedevs");
+		}
+
+		private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			System.Diagnostics.Process.Start("https://eagleone.dev/");
+		}
+
+		private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			System.Diagnostics.Process.Start("https://twitter.com/EagleOneDevs");
 		}
 	}
 
