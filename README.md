@@ -8,6 +8,8 @@ Current Features:
 * Crashes s&box if it's running during packing :)
 * Broken size on some display scales
 
+(Sounds are not currently supported, but we'll work on it soon!)
+
 How to Use:
 * Compile your map.
 * Make sure your vmap and compiled vpk are in the same directory.
