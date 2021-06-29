@@ -11,10 +11,8 @@ using System.IO;
 using Microsoft.WindowsAPICodePack;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Media;
-namespace MapScrubber {
 
-
-
+namespace MapPacker {
 
 	public partial class AppForm : Form {
 		public AppForm() {
@@ -38,6 +36,16 @@ namespace MapScrubber {
 
 			set {
 				progressBar = value;
+			}
+		}
+
+		public CheckBox packCheck {
+			get {
+				return checkBox1;
+			}
+
+			set {
+				checkBox1 = value;
 			}
 		}
 
@@ -126,6 +134,14 @@ namespace MapScrubber {
 
 		private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			System.Diagnostics.Process.Start("https://twitter.com/EagleOneDevs");
+		}
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e) {
+			if(this.checkBox1.Checked) {
+				packAssets.Text = "Move Assets";
+			} else {
+				packAssets.Text = "Pack Assets";
+			}
 		}
 	}
 

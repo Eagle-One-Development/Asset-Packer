@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Media;
 
-namespace MapScrubber {
+namespace MapPacker {
 	public class AssetCleaner {
 
 		public static HashSet<string> assets = new HashSet<string>();
@@ -46,7 +46,10 @@ namespace MapScrubber {
 				} else if(item.EndsWith("vpcf")) {
 					GetAssetsFromParticle(item);
 				} else if (item.EndsWith("vmap")) {
-					GetSkyboxAssets(item);
+					var mapName = pathToMap.Substring(pathToMap.LastIndexOf("\\") + 1, pathToMap.Length - pathToMap.LastIndexOf("\\") - 1);
+					if(!(item == "mapName")) {
+						GetSkyboxAssets(item);
+					}
 				}
 			}
 
@@ -87,7 +90,7 @@ namespace MapScrubber {
 			SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 			player.Play();
 			Console.WriteLine("\nAsset pack completed.");
-			MessageBox.Show("VPK Successfully Completed", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
+			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
 		}
 
 		public void ExecuteCommandAsync(string command) {
@@ -127,7 +130,13 @@ namespace MapScrubber {
 		}
 
 		public void CopyFiles() {
-			Console.WriteLine("\nAssets packed: ");
+			
+			if(parentForm.packCheck.Checked) {
+				outputDirectory += "_content";
+				Console.WriteLine("\nAssets moved: ");
+			} else {
+				Console.WriteLine("\nAssets packed: ");
+			}
 
 			int index = 0;
 			foreach(string asset in assets) {
@@ -136,12 +145,11 @@ namespace MapScrubber {
 				parentForm.bar.Value = 40 + 30 * (int)Math.Round(index / (float)assets.Count);
 
 				string fileName = asset;
-
-				string source = Path.Combine(assetPath, fileName);
-				string destination = Path.Combine(outputDirectory, fileName);
-				string directory = destination.Substring(0, destination.LastIndexOf("\\"));
-
 				try {
+					string source = Path.Combine(assetPath, fileName);
+					string destination = Path.Combine(outputDirectory, fileName);
+					string directory = destination.Substring(0, destination.LastIndexOf("\\"));
+
 					if(File.Exists(source)) {
 						Directory.CreateDirectory(directory);
 						File.Copy(source, destination, true);
@@ -151,11 +159,17 @@ namespace MapScrubber {
 						// asset is in core files, ignore
 					}
 
-				} catch(DirectoryNotFoundException) {
-					Console.WriteLine($"{asset} could not be found or is missing");
+				} catch {
+					//Console.WriteLine($"{asset} could not be found or is missing");
+					// asset not found, broken or otherwise defunct, ignore
 				}
 			}
-			PackVPK();
+			if(!parentForm.packCheck.Checked) {
+				PackVPK();
+			} else {
+				Console.WriteLine("\nAsset move completed.");
+				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
+			}
 		}
 
 		public void GetSkyboxAssets(string map) {
@@ -188,6 +202,11 @@ namespace MapScrubber {
 					if(matItem.EndsWith("vmat")) {
 						AddAsset(matItem); // add vmat_c referenced by the vmdl_c
 						GetAssetsFromMaterial(matItem); // add vtex_c referenced by the vmat_c
+					} else if (matItem.EndsWith("vmesh")) { // LEGACY IMPORT SUPPORT
+						AddAsset(matItem); // add vmesh_c referenced by the vmdl_c
+						GetAssetsFromModel(matItem); // add vmat_c referenced by the vmesh_c
+					} else if (matItem.EndsWith("vphys")) {
+						AddAsset(matItem); // add vphys_c referenced by a vmesh_c
 					}
 				}
 			} catch {
@@ -256,6 +275,10 @@ namespace MapScrubber {
 				asset = asset.Replace(".vpcf", ".vpcf_c");
 			} else if(asset.EndsWith("vsnd")) {
 				asset = asset.Replace(".vsnd", ".vsnd_c");
+			} else if(asset.EndsWith("vphys")) {
+				asset = asset.Replace(".vphys", ".vphys_c");
+			} else if(asset.EndsWith("vmesh")) {
+				asset = asset.Replace(".vmesh", ".vmesh_c");
 			}
 			return asset;
 		}

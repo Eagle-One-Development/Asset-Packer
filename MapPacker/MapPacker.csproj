@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{07817566-E70C-4F15-8A18-A601288E0458}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MapScrubber</RootNamespace>
-    <AssemblyName>VPK Asset Packer</AssemblyName>
+    <RootNamespace>MapPacker</RootNamespace>
+    <AssemblyName>Map Asset Packer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
