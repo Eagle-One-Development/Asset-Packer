@@ -26,7 +26,8 @@ namespace MapPacker {
 			Console.WriteLine("\t[+] Make sure your vmap and compiled vpk are in the same directory.");
 			Console.WriteLine("\t[+] Select your vmap, asset directory and sbox directory in the boxes above.");
 			Console.WriteLine("\t[+] Click pack. The found and packed assets will be listed below.");
-			Console.WriteLine("\nFor any additional help, contact Josh Wilson#9332 or DoctorGurke#0007 on discord or make an issue on the Github.");
+			Console.WriteLine("\n\t[+]In case you don't want to have your content packed, just check the box and it will instead appear in a folder called yourMap_content.");
+			Console.WriteLine("\nFor any additional help, contact 'DoctorGurke#0007' or 'Josh Wilson#9332' on discord or make an issue on the Github.");
 		}
 
 		public ProgressBar bar {

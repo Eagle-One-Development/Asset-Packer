@@ -34,24 +34,7 @@ namespace MapPacker {
 			string pathToMap = vmapFile;
 
 			Console.WriteLine($"reading map file: {pathToMap}");
-			byte[] file = File.ReadAllBytes(pathToMap);
-			AssetFile map = AssetFile.From(file);
-			map.TrimAssetList(); // trim it to the space where assets are actually referenced, using "map_assets_references" markers
-
-			foreach(var item in map.SplitNull()) {
-				if(item.EndsWith("vmat")) {
-					GetAssetsFromMaterial(item);
-				} else if(item.EndsWith("vmdl")) {
-					GetAssetsFromModel(item);
-				} else if(item.EndsWith("vpcf")) {
-					GetAssetsFromParticle(item);
-				} else if (item.EndsWith("vmap")) {
-					var mapName = pathToMap.Substring(pathToMap.LastIndexOf("\\") + 1, pathToMap.Length - pathToMap.LastIndexOf("\\") - 1);
-					if(!(item == "mapName")) {
-						GetSkyboxAssets(item);
-					}
-				}
-			}
+			GetAssetsFromMap(pathToMap);
 
 			parentForm.bar.Value = 30;
 
@@ -167,24 +150,32 @@ namespace MapPacker {
 			if(!parentForm.packCheck.Checked) {
 				PackVPK();
 			} else {
+				SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
+				parentForm.bar.Value = 0;
 				Console.WriteLine("\nAsset move completed.");
 				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
 			}
 		}
 
-		public void GetSkyboxAssets(string map) {
-			map = CleanAssetPath(map);
-			var mapDir = vmapFile.Substring(0, vmapFile.LastIndexOf("maps"));
+		public void GetAssetsFromMap(string map) { // this uses a full path, since it's kinda for the original map
 			try {
-				var mapReference = AssetFile.From(File.ReadAllBytes($"{mapDir}{map}"));
-				if(mapReference.IsMapSkybox()) {
-					//Console.WriteLine($"3D Skybox reference found {map}");
-					mapReference.TrimAssetList();
-					foreach(var item in mapReference.SplitNull()) {
-						if(item.EndsWith("vmat")) {
-							GetAssetsFromMaterial(item);
-						} else if(item.EndsWith("vmdl")) {
-							GetAssetsFromModel(item);
+				var mapData = File.ReadAllBytes($"{map}");
+				AssetFile mapFile = AssetFile.From(mapData);
+				mapFile.TrimAssetList(); // trim it to the space where assets are actually referenced, using "map_assets_references" markers
+
+				foreach(var item in mapFile.SplitNull()) {
+					if(item.EndsWith("vmat")) {
+						GetAssetsFromMaterial(item);
+					} else if(item.EndsWith("vmdl")) {
+						GetAssetsFromModel(item);
+					} else if(item.EndsWith("vpcf")) {
+						GetAssetsFromParticle(item);
+					} else if(item.EndsWith("vmap")) {
+						var mapItem = CleanAssetPath(item);
+						var path = TrimAddonPath(map);
+						if(!($"{path}\\{item}" == map)) {
+							GetAssetsFromMap($"{path}\\{item}"); // we can assume that prefabs will also be wherever the original map is
+							GetAssetsFromMap($"{assetPath}\\{item}"); // prefabs *could* also be in the asset directory however
 						}
 					}
 				}
@@ -281,6 +272,15 @@ namespace MapPacker {
 				asset = asset.Replace(".vmesh", ".vmesh_c");
 			}
 			return asset;
+		}
+
+		public static string TrimAddonPath(string path) {
+			// trim full path to addons/addonName/
+			var addonsIndex = path.LastIndexOf("addons");
+			var trim1 = path.Substring(0, addonsIndex + 7);
+			var trim2 = path.Substring(addonsIndex + 7, path.Length - addonsIndex - 7);
+			var addonName = trim2.Substring(0, trim2.IndexOf("\\"));
+			return trim1 + addonName;
 		}
 	}
 
