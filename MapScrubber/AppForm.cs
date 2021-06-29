@@ -22,6 +22,13 @@ namespace MapScrubber {
 			TextWriter tmp = Console.Out; // Save the current console TextWriter. 
 			StringRedir r = new StringRedir(ref consoleTextbox);
 			Console.SetOut(r); // Set console output to the StringRedir class. 
+			Console.WriteLine("s&box Map Asset Packer");
+			Console.WriteLine("\nHow to Use:");
+			Console.WriteLine("\t[+] Compile your map.");
+			Console.WriteLine("\t[+] Make sure your vmap and compiled vpk are in the same directory.");
+			Console.WriteLine("\t[+] Select your vmap, asset directory and sbox directory in the boxes above.");
+			Console.WriteLine("\t[+] Click pack. The found and packed assets will be listed below.");
+			Console.WriteLine("\nFor any additional help, contact Josh Wilson#9332 or DoctorGurke#0007 on discord or make an issue on the Github.");
 		}
 
 		public ProgressBar bar {
