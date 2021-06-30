@@ -20,7 +20,7 @@ namespace MapPacker {
 
 		public AssetCleaner(string assetDir, string sboxDir, string vmapFile) {
 			this.assetPath = assetDir;
-			this.vpkDirectory = sboxDir;
+			this.vpkDirectory = sboxDir + "\\bin\\win64\\vpk.exe";
 			this.vmapFile = vmapFile;
 			outputDirectory = Path.GetDirectoryName(vmapFile) + "\\" + Path.GetFileNameWithoutExtension(vmapFile);
 			Directory.CreateDirectory(outputDirectory);
@@ -52,28 +52,6 @@ namespace MapPacker {
 
 			parentForm.bar.Value = 40;
 			CopyFiles();
-		}
-
-		public void PackVPK() {
-			vpkDirectory += "\\bin\\win64\\vpk.exe";
-			
-			//execute vpk file.vpk to extract
-			string command = @"""" + vmapFile.Replace(".vmap", ".vpk") + @"""";
-			ExecuteCommandSync(command);
-			parentForm.bar.Value = 95;
-
-			// execute vpk outputDirectory to repack
-			command = @"""" + outputDirectory + @"""";
-			ExecuteCommandSync(command);
-			parentForm.bar.Value = 0;
-
-			// delete temp directory
-			Directory.Delete(outputDirectory, true);
-
-			SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
-			player.Play();
-			Console.WriteLine("\nAsset pack completed.");
-			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
 		}
 
 		public void ExecuteCommandAsync(string command) {
@@ -119,6 +97,7 @@ namespace MapPacker {
 				Console.WriteLine("\nAssets moved: ");
 			} else {
 				Console.WriteLine("\nAssets packed: ");
+				ExtractVPK();  // extract first, pack after copying
 			}
 
 			int index = 0;
@@ -138,23 +117,43 @@ namespace MapPacker {
 						File.Copy(source, destination, true);
 						Console.WriteLine($"\t{asset}");
 					} else {
-						//Console.WriteLine($"{source} could not be found and was not copied");
 						// asset is in core files, ignore
 					}
-
 				} catch {
-					//Console.WriteLine($"{asset} could not be found or is missing");
 					// asset not found, broken or otherwise defunct, ignore
 				}
 			}
 			if(!parentForm.packCheck.Checked) {
 				PackVPK();
 			} else {
-				SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 				parentForm.bar.Value = 0;
+				SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
+				player.Play();
 				Console.WriteLine("\nAsset move completed.");
 				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
 			}
+		}
+
+		public void ExtractVPK() {
+			//execute vpk file.vpk to extract
+			string command = $"{vmapFile.Replace(".vmap", ".vpk")}";
+			ExecuteCommandSync(command);
+			parentForm.bar.Value = 95;
+		}
+
+		public void PackVPK() {
+			// execute vpk outputDirectory to repack
+			var command = $"{outputDirectory}";
+			ExecuteCommandSync(command);
+			parentForm.bar.Value = 0;
+
+			// delete temp directory
+			Directory.Delete(outputDirectory, true);
+
+			SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
+			player.Play();
+			Console.WriteLine("\nAsset pack completed.");
+			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
 		}
 
 		public void GetAssetsFromMap(string map) { // this uses a full path, since it's kinda for the original map
@@ -173,7 +172,7 @@ namespace MapPacker {
 					} else if(item.EndsWith("vmap")) {
 						var mapItem = CleanAssetPath(item);
 						var path = TrimAddonPath(map);
-						if(!($"{path}\\{item}" == map)) {
+						if(!($"{path}\\{item}" == map)) { // this will also deal with 3d skybox content
 							GetAssetsFromMap($"{path}\\{item}"); // we can assume that prefabs will also be wherever the original map is
 							GetAssetsFromMap($"{assetPath}\\{item}"); // prefabs *could* also be in the asset directory however
 						}
@@ -270,12 +269,14 @@ namespace MapPacker {
 				asset = asset.Replace(".vphys", ".vphys_c");
 			} else if(asset.EndsWith("vmesh")) {
 				asset = asset.Replace(".vmesh", ".vmesh_c");
+			} else if (asset.EndsWith("vsnd")) {
+				asset = asset.Replace("vsnd", "vsnd_c");
 			}
 			return asset;
 		}
 
 		public static string TrimAddonPath(string path) {
-			// trim full path to addons/addonName/
+			// trim full path to .../addons/addonName/
 			var addonsIndex = path.LastIndexOf("addons");
 			var trim1 = path.Substring(0, addonsIndex + 7);
 			var trim2 = path.Substring(addonsIndex + 7, path.Length - addonsIndex - 7);
@@ -284,6 +285,7 @@ namespace MapPacker {
 		}
 	}
 
+	// this should probably get reworked with asset type enums
 	public class AssetFile {
 		private string assetReference;
 		public static AssetFile From(byte[] bytes) {
@@ -304,6 +306,7 @@ namespace MapPacker {
 			return output;
 		}
 
+		// obsolete since we're doing prefab scans anyways
 		public bool IsMapSkybox() {
 			var splitStrings = this.SplitNull();
 
