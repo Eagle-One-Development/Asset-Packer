@@ -1,56 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Media;
 
 namespace MapPacker {
-	public class AssetCleaner {
+	class AssetPacker{
 
 		public static HashSet<string> assets = new HashSet<string>();
 		private string assetPath;
 		public string outputDirectory;
 		private string vpkDirectory;
 		private string vmapFile;
-		public AppForm parentForm;
 
-		public AssetCleaner(string assetDir, string sboxDir, string vmapFile) {
+		public MainWindow parentForm;
+
+		public AssetPacker(string assetDir, string sboxDir, string vmapFile) {
 			this.assetPath = assetDir;
 			this.vpkDirectory = sboxDir + "\\bin\\win64\\vpk.exe";
 			this.vmapFile = vmapFile;
 			outputDirectory = Path.GetDirectoryName(vmapFile) + "\\" + Path.GetFileNameWithoutExtension(vmapFile);
-			Directory.CreateDirectory(outputDirectory);
 		}
 
 		public void GetAssets() {
+			if(parentForm.Pack) {
+				Directory.CreateDirectory(outputDirectory);
+			}
 
-			parentForm.bar.Value = 10;
+			parentForm.SetProgress(10);
 
 			// path where the map is
 			string pathToMap = vmapFile;
 
-			Console.WriteLine($"reading map file: {pathToMap}");
+			parentForm.PrintToConsole($"reading map file: {pathToMap}");
 			GetAssetsFromMap(pathToMap);
 
-			parentForm.bar.Value = 30;
+			parentForm.SetProgress(30);
 
 			if(assets.Count > 0) {
-				Console.WriteLine("Found assets:");
+				parentForm.PrintToConsole("Found assets:");
 			} else {
-				Console.WriteLine("No assets found!");
-				parentForm.bar.Value = 0;
+				parentForm.PrintToConsole("No assets found!");
+				parentForm.SetProgress(0);
 				MessageBox.Show("No assets could be found!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 			foreach(string asset in assets) {
-				Console.WriteLine($"\t{asset}");
+				parentForm.PrintToConsole($"\t{asset}", "steam2004ControlText");
 			}
 
-			parentForm.bar.Value = 40;
+			parentForm.SetProgress(40);
 			CopyFiles();
 		}
 
@@ -91,12 +92,12 @@ namespace MapPacker {
 		}
 
 		public void CopyFiles() {
-			
-			if(parentForm.packCheck.Checked) {
+
+			if(!parentForm.Pack) {
 				outputDirectory += "_content";
-				Console.WriteLine("\nAssets moved: ");
+				parentForm.PrintToConsole("\nAssets moved: ");
 			} else {
-				Console.WriteLine("\nAssets packed: ");
+				parentForm.PrintToConsole("\nAssets packed: ");
 				ExtractVPK();  // extract first, pack after copying
 			}
 
@@ -104,7 +105,7 @@ namespace MapPacker {
 			foreach(string asset in assets) {
 				index++;
 
-				parentForm.bar.Value = 40 + 30 * (int)Math.Round(index / (float)assets.Count);
+				parentForm.SetProgress(40 + 30 * (int)Math.Round(index / (float)assets.Count));
 
 				string fileName = asset;
 				try {
@@ -115,7 +116,7 @@ namespace MapPacker {
 					if(File.Exists(source)) {
 						Directory.CreateDirectory(directory);
 						File.Copy(source, destination, true);
-						Console.WriteLine($"\t{asset}");
+						parentForm.PrintToConsole($"\t{asset}", "steam2004ControlText");
 					} else {
 						// asset is in core files, ignore
 					}
@@ -123,14 +124,20 @@ namespace MapPacker {
 					// asset not found, broken or otherwise defunct, ignore
 				}
 			}
-			if(!parentForm.packCheck.Checked) {
+			if(parentForm.Pack) {
 				PackVPK();
 			} else {
-				parentForm.bar.Value = 0;
-				SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
+				parentForm.SetProgress(0);
+
+				SoundPlayer player = new SoundPlayer("/sound/steam_message.wav");
+				player.Load();
 				player.Play();
-				Console.WriteLine("\nAsset move completed.");
+
+				//SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
+				//player.Play();
+				parentForm.PrintToConsole("\nAsset move completed.");
 				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
+				parentForm.SetCheckBoxEnabled(true);
 			}
 		}
 
@@ -138,22 +145,23 @@ namespace MapPacker {
 			//execute vpk file.vpk to extract
 			string command = $"{vmapFile.Replace(".vmap", ".vpk")}";
 			ExecuteCommandSync(command);
-			parentForm.bar.Value = 95;
+			parentForm.SetProgress(95);
 		}
 
 		public void PackVPK() {
 			// execute vpk outputDirectory to repack
 			var command = $"{outputDirectory}";
 			ExecuteCommandSync(command);
-			parentForm.bar.Value = 0;
+			parentForm.SetProgress(0);
 
 			// delete temp directory
 			Directory.Delete(outputDirectory, true);
 
-			SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
-			player.Play();
-			Console.WriteLine("\nAsset pack completed.");
+			//SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
+			//player.Play();
+			parentForm.PrintToConsole("\nAsset pack completed.");
 			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
+			parentForm.SetCheckBoxEnabled(true);
 		}
 
 		public void GetAssetsFromMap(string map) { // this uses a full path, since it's kinda for the original map
@@ -192,10 +200,10 @@ namespace MapPacker {
 					if(matItem.EndsWith("vmat")) {
 						AddAsset(matItem); // add vmat_c referenced by the vmdl_c
 						GetAssetsFromMaterial(matItem); // add vtex_c referenced by the vmat_c
-					} else if (matItem.EndsWith("vmesh")) { // LEGACY IMPORT SUPPORT
+					} else if(matItem.EndsWith("vmesh")) { // LEGACY IMPORT SUPPORT
 						AddAsset(matItem); // add vmesh_c referenced by the vmdl_c
 						GetAssetsFromModel(matItem); // add vmat_c referenced by the vmesh_c
-					} else if (matItem.EndsWith("vphys")) {
+					} else if(matItem.EndsWith("vphys")) {
 						AddAsset(matItem); // add vphys_c referenced by a vmesh_c
 					}
 				}
@@ -227,7 +235,7 @@ namespace MapPacker {
 				foreach(var assetItem in material.SplitNull()) {
 					if(assetItem.EndsWith("vtex")) {
 						AddAsset(assetItem); // add vtex_c referenced by the vpcf_c
-					} else if (assetItem.EndsWith("vmat")) {
+					} else if(assetItem.EndsWith("vmat")) {
 						GetAssetsFromMaterial(assetItem);
 					} else if(assetItem.EndsWith("vmdl")) {
 						GetAssetsFromModel(assetItem);
@@ -261,7 +269,7 @@ namespace MapPacker {
 				asset = asset.Replace(".vmdl", ".vmdl_c");
 			} else if(asset.EndsWith("vtex")) {
 				asset = asset.Replace(".vtex", ".vtex_c");
-			} else if (asset.EndsWith("vpcf")) {
+			} else if(asset.EndsWith("vpcf")) {
 				asset = asset.Replace(".vpcf", ".vpcf_c");
 			} else if(asset.EndsWith("vsnd")) {
 				asset = asset.Replace(".vsnd", ".vsnd_c");
@@ -269,7 +277,7 @@ namespace MapPacker {
 				asset = asset.Replace(".vphys", ".vphys_c");
 			} else if(asset.EndsWith("vmesh")) {
 				asset = asset.Replace(".vmesh", ".vmesh_c");
-			} else if (asset.EndsWith("vsnd")) {
+			} else if(asset.EndsWith("vsnd")) {
 				asset = asset.Replace("vsnd", "vsnd_c");
 			}
 			return asset;
@@ -322,4 +330,3 @@ namespace MapPacker {
 		}
 	}
 }
-
