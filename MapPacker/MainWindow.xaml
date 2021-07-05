@@ -192,7 +192,7 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="bg1" BorderThickness="1.5, 1.5, 0, 0" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
                             <Border x:Name="bg2" BorderThickness="0, 0, 1.5, 1.5" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-                                <ContentPresenter Margin="{TemplateBinding Padding}"  Width ="auto" Height="auto" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                <ContentPresenter SnapsToDevicePixels="True" Margin="{TemplateBinding Padding}"  Width ="auto" Height="auto" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
                             </Border>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -233,9 +233,9 @@
                     </Grid.ColumnDefinitions>
                     <Rectangle Grid.ColumnSpan="4" Height="Auto" Width="Auto" Mouse.MouseDown="Window_MouseDown" Fill="#00000000"/>
                     <Image x:Name="favicon" Grid.Column="0" Mouse.MouseDown="Window_MouseDown" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Source="/MapPacker;component/icons/mappacker.png" Margin="5,5,0,0"/>
-                    <Label x:Name="TitleLabel" Content="s&amp;box Map Packer" Mouse.MouseDown="Window_MouseDown" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="{DynamicResource steam2004ControlText}" FontFamily="Tahoma" FontSize="16" FontWeight="Thin" FontStretch="Medium"/>
+                    <Label x:Name="TitleLabel" SnapsToDevicePixels="True" Content="s&amp;box Map Packer" Mouse.MouseDown="Window_MouseDown" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="{DynamicResource steam2004ControlText}" FontFamily="Tahoma" FontSize="16" FontWeight="Thin" FontStretch="Medium"/>
                     <Button x:Name="MinimizeButton" Content="_" Grid.Column="2" Width="20" Height="20" Click="MinimizeButton_Click" Foreground="{DynamicResource steam2004TitleDimText}" FontSize="15" FontFamily="Bahnschrift Light" Margin="5,0,2,5"/>
-                    <Button x:Name="CloseButton" Content="x" Grid.Column="3" Margin="0,0,10,5" Width="20" Height="20" Click="CloseButton_Click" Foreground="{DynamicResource steam2004TitleDimText}" FontSize="15" FontFamily="Bahnschrift Light"/>
+                    <Button x:Name="CloseButton" Content="x" Grid.Column="3" Margin="0,0,10,5" Width="20" Height="20" Click="CloseButton_Click" Foreground="{DynamicResource steam2004TitleDimText}" FontSize="15" FontFamily="Bahnschrift Light" FontWeight="Normal" FontStyle="Normal"/>
                 </Grid>
                 <Grid x:Name="Body" Grid.Row="1">
                     <Grid.RowDefinitions>
@@ -255,9 +255,9 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label x:Name="vmapLabel" Content="Vmap File:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Margin="0,-3,0,0"/>
-                        <Label x:Name="assetLabel" Content="Asset Directory:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Margin="0,-3,0,0"/>
-                        <Label x:Name="sboxLabel" Content="s&amp;box Directory:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Margin="0,-3,0,0"/>
+                        <Label x:Name="vmapLabel" SnapsToDevicePixels="True" Content="Vmap File:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Margin="0,-3,0,0"/>
+                        <Label x:Name="assetLabel" SnapsToDevicePixels="True" Content="Asset Directory:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Margin="0,-3,0,0"/>
+                        <Label x:Name="sboxLabel" SnapsToDevicePixels="True" Content="s&amp;box Directory:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Margin="0,-3,0,0"/>
                         <Image x:Name="vmapIcon" HorizontalAlignment="Right" Margin="0" Height="20" Width="20" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Source="/MapPacker;component/icons/icon_file.png"/>
                         <Image x:Name="assetIcon" HorizontalAlignment="Right" Margin="0" Height="20" Width="20" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Source="/MapPacker;component/icons/icon_folder.png"/>
                         <Image x:Name="sboxIcon" HorizontalAlignment="Right" Margin="0" Height="20" Width="20" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Source="/MapPacker;component/icons/icon_folder.png"/>
@@ -333,28 +333,31 @@
                                 </Border>
                             </Border>
                             <Image x:Name="EagleOneIcon" Grid.Column="0" Height="25" Grid.Row="1" Width="25" Stretch="Fill" Source="/MapPacker;component/icons/icon_eagleone.png" HorizontalAlignment="Left"/>
-                            <Label x:Name="EagleOneLabel" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Tahoma" Content="Created By Eagle One" Foreground="{DynamicResource steam2004ControlText}"/>
-                            <Label x:Name="GithubLink" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
+                            <Label x:Name="EagleOneLabel" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Tahoma" Content="Created By Eagle One" Foreground="{DynamicResource steam2004ControlText}"/>
+                            <Label x:Name="GithubLink" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
                                 <Hyperlink Click="LinkLabel_Click" NavigateUri="https://github.com/Eagle-One-Development/Asset-Packer" Foreground="{DynamicResource steam2004ControlText}">
                                     <Run Text="Github"/>
                                 </Hyperlink>
                             </Label>
-                            <Label x:Name="DiscordLink" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
+                            <Label x:Name="DiscordLink" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
                                 <Hyperlink Click="LinkLabel_Click" NavigateUri="https://discord.com/invite/eagleonedevs" Foreground="{DynamicResource steam2004ControlText}">
                                     <Run Text="Discord"/>
                                 </Hyperlink>
                             </Label>
-                            <Label x:Name="WebsiteLink" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
+                            <Label x:Name="WebsiteLink" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
                                 <Hyperlink Click="LinkLabel_Click" NavigateUri="https://eagleone.dev" Foreground="{DynamicResource steam2004ControlText}">
                                     <Run Text="Website"/>
                                 </Hyperlink>
                             </Label>
-                            <Label x:Name="TwitterLink" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
+                            <Label x:Name="TwitterLink" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
                                 <Hyperlink Click="LinkLabel_Click" NavigateUri="https://twitter.com/EagleOneDevs" Foreground="{DynamicResource steam2004ControlText}">
                                     <Run Text="Twitter"/>
                                 </Hyperlink>
                             </Label>
-                            <CheckBox x:Name="PackCheck" Content="Do NOT pack vpk" Grid.Column="6" HorizontalAlignment="Right" Margin="10,0,5,0" Grid.Row="1" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Background="{DynamicResource steam2004ControlDark}" Checked="PackCheck_Checked" Unchecked="PackCheck_Unchecked" BorderBrush="{DynamicResource steam2004DimBaseText}"/>
+                            <CheckBox x:Name="PackCheck" SnapsToDevicePixels="True" Content="Do NOT pack vpk" Grid.Column="6" HorizontalAlignment="Right" Margin="10,0,5,0" Grid.Row="1" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Background="{DynamicResource steam2004ControlDark}" Checked="PackCheck_Checked" Unchecked="PackCheck_Unchecked" BorderBrush="{DynamicResource steam2004DimBaseText}">
+                                
+                            </CheckBox>
+                            
                         </Grid>
                     </Grid>
                 </Grid>

@@ -8,15 +8,6 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="icon_eagleone.png" />
-    <None Remove="icon_file.png" />
-    <None Remove="icon_folder.png" />
-    <None Remove="mappacker.png" />
-    <None Remove="resizeIcon.png" />
-    <None Remove="sounds\steam-message.wav" />
-  </ItemGroup>
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
