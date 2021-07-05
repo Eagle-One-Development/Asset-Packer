@@ -129,12 +129,10 @@ namespace MapPacker {
 			} else {
 				parentForm.SetProgress(0);
 
-				SoundPlayer player = new SoundPlayer("/sound/steam_message.wav");
-				player.Load();
-				player.Play();
-
-				//SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
+				//SoundPlayer player = new SoundPlayer("/MapPacker;component/sounds/steam_message.wav");
+				//player.Load();
 				//player.Play();
+
 				parentForm.PrintToConsole("\nAsset move completed.");
 				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButton.OK, MessageBoxImage.None);
 				parentForm.SetCheckBoxEnabled(true);
