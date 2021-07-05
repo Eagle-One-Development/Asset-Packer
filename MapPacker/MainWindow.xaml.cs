@@ -160,21 +160,21 @@ namespace MapPacker {
 			var text = (System.Windows.Controls.RichTextBox)this.FindName("vmapLocation");
 			string vmapFile = new TextRange(text.Document.ContentStart, text.Document.ContentEnd).Text.Replace("\r\n", "");
 			if(!File.Exists(vmapFile)) {
-				System.Windows.MessageBox.Show("Vmap file path invalid!", "Error");
+				System.Windows.MessageBox.Show("Vmap file path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 			
 			text = (RichTextBox)this.FindName("assetLocation");
 			string assetDir = new TextRange(text.Document.ContentStart, text.Document.ContentEnd).Text.Replace("\r\n", "");
 			if(!Directory.Exists(assetDir)) {
-				System.Windows.MessageBox.Show("Asset Directory path invalid!", "Error");
+				System.Windows.MessageBox.Show("Asset Directory path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 			
 			text = (RichTextBox)this.FindName("sboxLocation");
 			string sboxDir = new TextRange(text.Document.ContentStart, text.Document.ContentEnd).Text.Replace("\r\n", "");
 			if(!Directory.Exists(sboxDir)) {
-				System.Windows.MessageBox.Show("s&box Directory path invalid!", "Error");
+				System.Windows.MessageBox.Show("s&box Directory path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 

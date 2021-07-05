@@ -17,21 +17,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Resource Include="icons\icon_eagleone.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="icons\icon_file.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="icons\icon_folder.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="icons\mappacker.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="icons\resizeIcon.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <None Remove="sounds\steam-message.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="icons\icon_eagleone.png" />
+    <Resource Include="icons\icon_file.png" />
+    <Resource Include="icons\icon_folder.png" />
+    <Resource Include="icons\mappacker.png" />
+    <Resource Include="icons\resizeIcon.png" />
+    <Resource Include="sounds\steam-message.wav" />
   </ItemGroup>
 
   <ItemGroup>

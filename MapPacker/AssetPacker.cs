@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Media;
+using System.Windows;
 
 namespace MapPacker {
 	class AssetPacker{
@@ -44,7 +44,7 @@ namespace MapPacker {
 			} else {
 				parentForm.PrintToConsole("No assets found!");
 				parentForm.SetProgress(0);
-				MessageBox.Show("No assets could be found!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("No assets could be found!", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
 				return;
 			}
 			foreach(string asset in assets) {
@@ -136,7 +136,7 @@ namespace MapPacker {
 				//SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 				//player.Play();
 				parentForm.PrintToConsole("\nAsset move completed.");
-				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
+				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButton.OK, MessageBoxImage.None);
 				parentForm.SetCheckBoxEnabled(true);
 			}
 		}
@@ -160,7 +160,7 @@ namespace MapPacker {
 			//SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 			//player.Play();
 			parentForm.PrintToConsole("\nAsset pack completed.");
-			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.None);
+			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButton.OK, MessageBoxImage.None);
 			parentForm.SetCheckBoxEnabled(true);
 		}
 
