@@ -6,10 +6,9 @@ A program that packs or isolates compiled assets used in a Map.
 
 * Packing using the vmap and compiled vpk
 * 3D Skybox and prefab asset detection
-* Materials, textures, particles and Models are detected and packed
+* Materials, textures, particles, post processing and Models are detected and packed
 * Proper support for legacy imported Models
 * Crashes s&box if it's running during packing :)
-* Broken size on some display scales
 
 # How to Use:
 
