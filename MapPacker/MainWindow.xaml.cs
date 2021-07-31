@@ -36,8 +36,7 @@ namespace MapPacker {
 			});
 		}
 
-		public MainWindow()
-        {
+		public MainWindow() {
             InitializeComponent();
 			_ProgressBar = (ProgressBar)this.FindName("ProgressBar");
 			ConsoleOutput = (RichTextBox)this.FindName("ConsoleOutputText");
@@ -53,8 +52,7 @@ namespace MapPacker {
 			PrintToConsole("\nFor any additional help, contact 'DoctorGurke#0007' or 'Josh Wilson#9332' on discord or make an issue on the Github.");
 		}
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
