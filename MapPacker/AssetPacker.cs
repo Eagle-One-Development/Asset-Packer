@@ -44,7 +44,7 @@ namespace MapPacker {
 			} else {
 				parentForm.PrintToConsole("No assets found!");
 				parentForm.SetProgress(0);
-				MessageBox.Show("No assets could be found!", "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+				MessageBox.Show("No assets could be found!", "Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 			foreach(string asset in assets) {
@@ -134,7 +134,7 @@ namespace MapPacker {
 				//player.Play();
 
 				parentForm.PrintToConsole("\nAsset move completed.");
-				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButton.OK, MessageBoxImage.None);
+				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
 				parentForm.SetCheckBoxEnabled(true);
 			}
 		}
@@ -157,8 +157,8 @@ namespace MapPacker {
 
 			//SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 			//player.Play();
-			parentForm.PrintToConsole("\nAsset pack completed.");
-			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButton.OK, MessageBoxImage.None);
+			parentForm.PrintToConsole("\nAsset pack completed.\n");
+			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
 			parentForm.SetCheckBoxEnabled(true);
 		}
 
