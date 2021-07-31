@@ -72,7 +72,7 @@ namespace MapPacker {
 
 			if(source != null) {
 
-				Process.Start(new ProcessStartInfo("cmd", $"/c start {source.NavigateUri.ToString()}") { CreateNoWindow = true });
+				Process.Start(new ProcessStartInfo("cmd", $"/c start {source.NavigateUri}") { CreateNoWindow = true });
 			}
 		}
 
@@ -157,24 +157,24 @@ namespace MapPacker {
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e) {
 			
-			var text = (System.Windows.Controls.RichTextBox)this.FindName("vmapLocation");
+			var text = (RichTextBox)this.FindName("vmapLocation");
 			string vmapFile = new TextRange(text.Document.ContentStart, text.Document.ContentEnd).Text.Replace("\r\n", "");
 			if(!File.Exists(vmapFile)) {
-				System.Windows.MessageBox.Show("Vmap file path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show("Vmap file path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 			
 			text = (RichTextBox)this.FindName("assetLocation");
 			string assetDir = new TextRange(text.Document.ContentStart, text.Document.ContentEnd).Text.Replace("\r\n", "");
 			if(!Directory.Exists(assetDir)) {
-				System.Windows.MessageBox.Show("Asset Directory path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show("Asset Directory path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 			
 			text = (RichTextBox)this.FindName("sboxLocation");
 			string sboxDir = new TextRange(text.Document.ContentStart, text.Document.ContentEnd).Text.Replace("\r\n", "");
 			if(!Directory.Exists(sboxDir)) {
-				System.Windows.MessageBox.Show("s&box Directory path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show("s&box Directory path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 

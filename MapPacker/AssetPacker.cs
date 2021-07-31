@@ -129,6 +129,8 @@ namespace MapPacker {
 			} else {
 				parentForm.SetProgress(0);
 
+				// rip natively playing sound with dotnet, I ain't using a library for a single gimmick sound, sorry
+
 				//SoundPlayer player = new SoundPlayer("/MapPacker;component/sounds/steam_message.wav");
 				//player.Load();
 				//player.Play();
@@ -182,6 +184,8 @@ namespace MapPacker {
 							GetAssetsFromMap($"{path}\\{item}"); // we can assume that prefabs will also be wherever the original map is
 							GetAssetsFromMap($"{assetPath}\\{item}"); // prefabs *could* also be in the asset directory however
 						}
+					} else if (item.EndsWith("vpost")) {
+						AddAsset(item); // post processing file
 					}
 				}
 			} catch {
@@ -238,7 +242,7 @@ namespace MapPacker {
 					} else if(assetItem.EndsWith("vmdl")) {
 						GetAssetsFromModel(assetItem);
 					} else if(assetItem.EndsWith("vpcf")) {
-						if(!(item == assetItem)) // if there's a self reference in the particle for some reason
+						if(!(item == assetItem)) // if there's a self reference in the particle. this is often the case for some reason
 							GetAssetsFromParticle(assetItem);
 					}
 				}
@@ -277,6 +281,8 @@ namespace MapPacker {
 				asset = asset.Replace(".vmesh", ".vmesh_c");
 			} else if(asset.EndsWith("vsnd")) {
 				asset = asset.Replace("vsnd", "vsnd_c");
+			} else if(asset.EndsWith("vpost")) {
+				asset = asset.Replace("vpost", "vpost_c");
 			}
 			return asset;
 		}
