@@ -19,4 +19,4 @@ A program that packs or isolates compiled assets used in a Map.
 
 In case you don't want to have your content packed, just check the box and it will instead appear in a folder called yourMap_content.
 
-For any additional help, contact `Josh Wilson#9332` or `DoctorGurke#0007` on discord or make an issue on the Github.
+For any additional help, contact `DoctorGurke#0007` or `Josh Wilson#9332` on discord or make an issue on the Github.
