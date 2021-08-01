@@ -354,7 +354,7 @@
                                     <Run Text="Twitter"/>
                                 </Hyperlink>
                             </Label>
-                            <CheckBox x:Name="PackCheck" SnapsToDevicePixels="True" Content="Do NOT pack vpk" Grid.Column="6" HorizontalAlignment="Right" Margin="10,0,5,0" Grid.Row="1" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Background="{DynamicResource steam2004ControlDark}" Checked="PackCheck_Checked" Unchecked="PackCheck_Unchecked" BorderBrush="{DynamicResource steam2004DimBaseText}">
+                            <CheckBox x:Name="PackCheck" SnapsToDevicePixels="True" Content="Do NOT pack vpk" Grid.Column="6" HorizontalAlignment="Right" Margin="10,0,5,0" Grid.Row="1" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004BrightControlText}" Background="{DynamicResource steam2004ControlDark}" Checked="PackCheck_Checked" Unchecked="PackCheck_Unchecked" BorderBrush="{DynamicResource steam2004DimBaseText}" VerticalContentAlignment="Center">
                                 
                             </CheckBox>
                             
