@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace MapPacker {
 	/// <summary>
@@ -36,12 +37,35 @@ namespace MapPacker {
 			});
 		}
 
+		private Dictionary<string, string> dictionary;
+
 		public MainWindow() {
-            InitializeComponent();
+			InitializeComponent();
 			_ProgressBar = (ProgressBar)this.FindName("ProgressBar");
 			ConsoleOutput = (RichTextBox)this.FindName("ConsoleOutputText");
 			PackCheckBox = (CheckBox)this.FindName("PackCheck");
 
+			string[] args = System.Environment.GetCommandLineArgs();
+
+			dictionary = new();
+
+			for(int index = 1; index < args.Length; index += 2) {
+				dictionary.Add(args[index], args[index + 1]);
+			}
+
+			//PrintToConsole($"args");
+
+			string value;
+			if(dictionary.TryGetValue("-sbox", out value)) {
+				PrintToConsole($"sbox {value}");
+			}
+			if(dictionary.TryGetValue("-vmap", out value)) {
+				PrintToConsole($"sbox {value}");
+			}
+			if(dictionary.TryGetValue("-assets", out value)) {
+				PrintToConsole($"sbox {value}");
+			}
+			
 			PrintToConsole("Welcome to the Eagle One Asset Packer!");
 			PrintToConsole("\n\tHow to Use:");
 			PrintToConsole("\n\t[+] Compile your map.");
