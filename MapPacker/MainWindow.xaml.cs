@@ -47,33 +47,110 @@ namespace MapPacker {
 
 			string[] args = System.Environment.GetCommandLineArgs();
 
-			dictionary = new();
+			if(args.Length >= 3) { // cli args come in groups of two. first arg is always the source executing the program
+				dictionary = new();
 
-			for(int index = 1; index < args.Length; index += 2) {
-				dictionary.Add(args[index], args[index + 1]);
-			}
+				for(int index = 1; index < args.Length; index += 2) {
+					dictionary.Add(args[index], args[index + 1]);
+				}
 
-			//PrintToConsole($"args");
+				//PrintToConsole($"args");
+				bool sbox = false;
+				bool vmap = false;
+				bool assets = false;
 
-			string value;
-			if(dictionary.TryGetValue("-sbox", out value)) {
-				PrintToConsole($"sbox {value}");
+				bool pack = true;
+				bool pause = false;
+
+				string sboxPath = "";
+				string vmapPath = "";
+				string assetsPath = "";
+
+				PrintToConsole("MapPacker CLI usage");
+
+				string value;
+				if(dictionary.TryGetValue("-sbox", out value)) {
+					PrintToConsole($"\n-sbox: {value}");
+					if(!Directory.Exists(value)) {
+						PrintToConsole("INVALID PATH");
+					} else {
+						PrintToConsole("VALID");
+						var box = (RichTextBox)this.FindName("sboxLocation");
+						box.Document.Blocks.Clear();
+						box.Document.Blocks.Add(new Paragraph(new Run(value)));
+						sboxPath = value;
+						sbox = true;
+					}
+				}
+				if(dictionary.TryGetValue("-vmap", out value)) {
+					PrintToConsole($"\n-vmap: {value}");
+					if(!File.Exists(value)) {
+						PrintToConsole("INVALID PATH");
+					} else {
+						PrintToConsole("VALID");
+						var box = (RichTextBox)this.FindName("vmapLocation");
+						box.Document.Blocks.Clear();
+						box.Document.Blocks.Add(new Paragraph(new Run(value)));
+						vmapPath = value;
+						vmap = true;
+					}
+				}
+				if(dictionary.TryGetValue("-assets", out value)) {
+					PrintToConsole($"\n-assets: {value}");
+					if(!Directory.Exists(value)) {
+						PrintToConsole("INVALID PATH");
+					} else {
+						PrintToConsole("VALID");
+						var box = (RichTextBox)this.FindName("assetLocation");
+						box.Document.Blocks.Clear();
+						box.Document.Blocks.Add(new Paragraph(new Run(value)));
+						assetsPath = value;
+						assets = true;
+					}
+				}
+				if(dictionary.TryGetValue("-pause", out value)) {
+					if(bool.Parse(value))
+						pause = true;
+				}
+				if(dictionary.TryGetValue("-pack", out value)) {
+					if(!bool.Parse(value)) {
+						PackCheckBox.IsEnabled = true;
+						pack = false;
+					}
+				}
+
+				if(sbox && vmap && assets) { // all main params valid
+					PrintToConsole("\nAll parameters valid, continuing...\n");
+					_PackCheck = pack;
+					AssetPacker AssetPacker = new AssetPacker(assetsPath, sboxPath, vmapPath);
+					AssetPacker.parentForm = this;
+					if(pause)
+						new Thread(AssetPacker.GetAssets).Start();
+					else
+						AssetPacker.GetAssets(true);
+
+					if(!pause) {
+						Close();
+						return;
+					}
+				} else {
+					PrintToConsole("\nNot enough valid parameters to continue!");
+					if(!pause) {
+						Close();
+						return;
+					}
+				}
+
+			} else {
+				PrintToConsole("Welcome to the Eagle One Asset Packer!");
+				PrintToConsole("\n\tHow to Use:");
+				PrintToConsole("\n\t[+] Compile your map.");
+				PrintToConsole("\t[+] Make sure your vmap and compiled vpk are in the same directory.");
+				PrintToConsole("\t[+] Select your vmap, asset directory and sbox directory in the boxes above.");
+				PrintToConsole("\t[+] Click pack. The found and packed assets will be listed below.");
+				PrintToConsole("\n\t[+] In case you don't want to have your content packed, just check the box and it will instead appear in a folder called 'yourMap_content'.");
+				PrintToConsole("\nFor any additional help, contact 'DoctorGurke#0007' or 'Josh Wilson#9332' on discord or make an issue on the Github.");
 			}
-			if(dictionary.TryGetValue("-vmap", out value)) {
-				PrintToConsole($"sbox {value}");
-			}
-			if(dictionary.TryGetValue("-assets", out value)) {
-				PrintToConsole($"sbox {value}");
-			}
-			
-			PrintToConsole("Welcome to the Eagle One Asset Packer!");
-			PrintToConsole("\n\tHow to Use:");
-			PrintToConsole("\n\t[+] Compile your map.");
-			PrintToConsole("\t[+] Make sure your vmap and compiled vpk are in the same directory.");
-			PrintToConsole("\t[+] Select your vmap, asset directory and sbox directory in the boxes above.");
-			PrintToConsole("\t[+] Click pack. The found and packed assets will be listed below.");
-			PrintToConsole("\n\t[+] In case you don't want to have your content packed, just check the box and it will instead appear in a folder called 'yourMap_content'.");
-			PrintToConsole("\nFor any additional help, contact 'DoctorGurke#0007' or 'Josh Wilson#9332' on discord or make an issue on the Github.");
 		}
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) {

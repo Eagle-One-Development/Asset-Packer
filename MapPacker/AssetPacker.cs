@@ -24,7 +24,17 @@ namespace MapPacker {
 			outputDirectory = Path.GetDirectoryName(vmapFile) + "\\" + Path.GetFileNameWithoutExtension(vmapFile);
 		}
 
+		private bool noNotf = false;
+
 		public void GetAssets() {
+			GetAssets(false);
+		}
+
+		public void GetAssets(bool noNotf = false) {
+
+			if(noNotf)
+				this.noNotf = noNotf;
+
 			if(parentForm.Pack) {
 				Directory.CreateDirectory(outputDirectory);
 			}
@@ -44,7 +54,8 @@ namespace MapPacker {
 			} else {
 				parentForm.PrintToConsole("No assets found!");
 				parentForm.SetProgress(0);
-				MessageBox.Show("No assets could be found!", "Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
+				if(!this.noNotf)
+					MessageBox.Show("No assets could be found!", "Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 			foreach(string asset in assets) {
@@ -136,7 +147,8 @@ namespace MapPacker {
 				//player.Play();
 
 				parentForm.PrintToConsole("\nAsset move completed.");
-				MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+				if(!this.noNotf)
+					MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
 				parentForm.SetCheckBoxEnabled(true);
 			}
 		}
@@ -160,7 +172,8 @@ namespace MapPacker {
 			//SoundPlayer player = new SoundPlayer(Properties.Resources.steam_message);
 			//player.Play();
 			parentForm.PrintToConsole("\nAsset pack completed.\n");
-			MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+			if(!this.noNotf)
+				MessageBox.Show("Map Successfully packed!", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
 			parentForm.SetCheckBoxEnabled(true);
 		}
 
