@@ -157,6 +157,9 @@ namespace MapPacker {
 			//execute vpk file.vpk to extract
 			string command = $"{vmapFile.Replace(".vmap", ".vpk")}";
 			ExecuteCommandSync(command);
+			if(parentForm.Pack)
+			File.Move($"{vmapFile.Replace(".vmap", ".vpk")}", $"{vmapFile.Replace(".vmap", ".vpk.backup")}");
+			//parentForm.PrintToConsole("\nExtracted vpk\n");
 			parentForm.SetProgress(95);
 		}
 
@@ -164,6 +167,7 @@ namespace MapPacker {
 			// execute vpk outputDirectory to repack
 			var command = $"{outputDirectory}";
 			ExecuteCommandSync(command);
+			//parentForm.PrintToConsole("\nPacked vpk\n");
 			parentForm.SetProgress(0);
 
 			// delete temp directory
