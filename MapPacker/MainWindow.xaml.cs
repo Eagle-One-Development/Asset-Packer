@@ -289,7 +289,7 @@ namespace MapPacker {
 		private void PackCheck_Checked(object sender, RoutedEventArgs e) {
 			//ConfirmButton
 			var button = (Button)this.FindName("ConfirmButton");
-			button.Content = "Move Assets";
+			button.Content = "Copy Assets";
 			_PackCheck = false;
 			//PrintToConsole($"check changed to {(sender as CheckBox).IsChecked}", "steam2004ControlText");
 		}
