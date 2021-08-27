@@ -84,9 +84,9 @@ namespace MapPacker {
 		public void ExecuteCommandSync(object command) {
 			try {
 				System.Diagnostics.ProcessStartInfo procStartInfo =
-					_ = new System.Diagnostics.ProcessStartInfo(vpkDirectory, "/c ");
+					_ = new System.Diagnostics.ProcessStartInfo(vpkDirectory, "/c");
 
-				procStartInfo.Arguments = (string)command;
+				procStartInfo.Arguments = $"{command}";
 				procStartInfo.RedirectStandardOutput = true;
 				procStartInfo.UseShellExecute = false;
 				procStartInfo.CreateNoWindow = true;
@@ -95,6 +95,10 @@ namespace MapPacker {
 				proc.Start();
 				// Get the output into a string
 				string result = proc.StandardOutput.ReadToEnd();
+				//parentForm.PrintToConsole($"{result}", "steam2004ControlText");
+
+				//vpk.exe does not output any important information and normal packing/unpacking does not allow for the verbose option.....
+				
 				// Display the command output.
 				//Console.WriteLine(result);
 			} catch {
@@ -108,8 +112,8 @@ namespace MapPacker {
 				outputDirectory += "_content";
 				parentForm.PrintToConsole("\nAssets moved: ");
 			} else {
-				parentForm.PrintToConsole("\nAssets packed: ");
 				ExtractVPK();  // extract first, pack after copying
+				parentForm.PrintToConsole("\nAssets packed: ");
 			}
 
 			int index = 0;
@@ -154,18 +158,19 @@ namespace MapPacker {
 		}
 
 		public void ExtractVPK() {
+			parentForm.PrintToConsole("\nUnpacking vpk\n");
 			//execute vpk file.vpk to extract
 			string command = $"{vmapFile.Replace(".vmap", ".vpk")}";
 			ExecuteCommandSync(command);
 			if(parentForm.Pack)
-			File.Move($"{vmapFile.Replace(".vmap", ".vpk")}", $"{vmapFile.Replace(".vmap", ".vpk.backup")}");
-			//parentForm.PrintToConsole("\nExtracted vpk\n");
+				File.Move($"{vmapFile.Replace(".vmap", ".vpk")}", $"{vmapFile.Replace(".vmap", ".vpk.backup")}", true);
+			parentForm.PrintToConsole("\nvpk unpacked\n");
 			parentForm.SetProgress(95);
 		}
 
 		public void PackVPK() {
 			// execute vpk outputDirectory to repack
-			var command = $"{outputDirectory}";
+			string command = $"{outputDirectory}";
 			ExecuteCommandSync(command);
 			//parentForm.PrintToConsole("\nPacked vpk\n");
 			parentForm.SetProgress(0);
