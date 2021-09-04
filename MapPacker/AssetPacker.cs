@@ -25,6 +25,7 @@ namespace MapPacker {
 		}
 
 		private bool noNotf = false;
+		private bool vpkFailed = false;
 
 		public void GetAssets() {
 			GetAssets(false);
@@ -45,6 +46,7 @@ namespace MapPacker {
 			string pathToMap = vmapFile;
 
 			parentForm.PrintToConsole($"reading map file: {pathToMap}");
+			parentForm.PrintToConsole($"\nThis might take some time for big maps!");
 			GetAssetsFromMap(pathToMap);
 
 			parentForm.SetProgress(30);
@@ -77,7 +79,6 @@ namespace MapPacker {
 				//Start the thread.
 				objThread.Start(command);
 			} catch {
-				// Log the exception
 			}
 		}
 
@@ -99,10 +100,7 @@ namespace MapPacker {
 
 				//vpk.exe does not output any important information and normal packing/unpacking does not allow for the verbose option.....
 				
-				// Display the command output.
-				//Console.WriteLine(result);
 			} catch {
-				// Log the exception
 			}
 		}
 
@@ -110,10 +108,14 @@ namespace MapPacker {
 
 			if(!parentForm.Pack) {
 				outputDirectory += "_content";
-				parentForm.PrintToConsole("\nAssets moved: ");
+				parentForm.PrintToConsole("\nAssets Copied: ");
 			} else {
 				ExtractVPK();  // extract first, pack after copying
-				parentForm.PrintToConsole("\nAssets packed: ");
+				if(vpkFailed) { // treat as nopack operation of vpk.exe didn't run properly (FOR SOME BLOODY REASON)
+					parentForm.PrintToConsole("\nAssets Copied: ");
+				} else {
+					parentForm.PrintToConsole("\nAssets Packed: ");
+				}
 			}
 
 			int index = 0;
@@ -133,38 +135,38 @@ namespace MapPacker {
 						File.Copy(source, destination, true);
 						parentForm.PrintToConsole($"\t{asset}", "steam2004ControlText");
 					} else {
-						// asset is in core files, ignore
+						// asset is in core files or another addon, ignore
 					}
 				} catch {
 					// asset not found, broken or otherwise defunct, ignore
 				}
 			}
-			if(parentForm.Pack) {
+			if(parentForm.Pack && !vpkFailed) {
 				PackVPK();
 			} else {
 				parentForm.SetProgress(0);
 
-				// rip natively playing sound with dotnet, I ain't using a library for a single gimmick sound, sorry
-
-				//SoundPlayer player = new SoundPlayer("/MapPacker;component/sounds/steam_message.wav");
-				//player.Load();
-				//player.Play();
-
-				parentForm.PrintToConsole("\nAsset move completed.");
+				parentForm.PrintToConsole("\nAsset copy completed.");
 				if(!this.noNotf)
-					MessageBox.Show("Content successfully moved!", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+					MessageBox.Show($"Content successfully copied! {(vpkFailed ? "\nvpk.exe failed! Content is located separate from the vpk." : "")}", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
 				parentForm.SetCheckBoxEnabled(true);
 			}
 		}
 
 		public void ExtractVPK() {
-			parentForm.PrintToConsole("\nUnpacking vpk\n");
+			parentForm.PrintToConsole("\nUnpacking vpk...\n");
 			//execute vpk file.vpk to extract
 			string command = $"{vmapFile.Replace(".vmap", ".vpk")}";
 			ExecuteCommandSync(command);
-			if(parentForm.Pack)
+			if(!Directory.Exists(outputDirectory) || vpkFailed) { //hacky check to see if vpk.exe ran properly... extra check is for debug
+				vpkFailed = true;
+				outputDirectory += "_content";
+				parentForm.PrintToConsole("\tvpk.exe failed to run! Treating this as a nopack operation instead... ");
+			}
+			if(parentForm.Pack && !vpkFailed) { // only "make" a backup if the original was extracted successfully, meaning it will be packed with content
 				File.Move($"{vmapFile.Replace(".vmap", ".vpk")}", $"{vmapFile.Replace(".vmap", ".vpk.backup")}", true);
-			parentForm.PrintToConsole("\nvpk unpacked\n");
+				parentForm.PrintToConsole("\nvpk unpacked\n");
+			}
 			parentForm.SetProgress(95);
 		}
 
@@ -224,8 +226,8 @@ namespace MapPacker {
 					if(matItem.EndsWith("vmat")) {
 						AddAsset(matItem); // add vmat_c referenced by the vmdl_c
 						GetAssetsFromMaterial(matItem); // add vtex_c referenced by the vmat_c
-					} else if(matItem.EndsWith("vmesh")) { // LEGACY IMPORT SUPPORT
-						AddAsset(matItem); // add vmesh_c referenced by the vmdl_c
+					} else if(matItem.EndsWith("vmesh")) { // LEGACY IMPORT SUPPORT |
+						AddAsset(matItem); // add vmesh_c referenced by the vmdl_c	V
 						GetAssetsFromModel(matItem); // add vmat_c referenced by the vmesh_c
 					} else if(matItem.EndsWith("vphys")) {
 						AddAsset(matItem); // add vphys_c referenced by a vmesh_c
@@ -277,7 +279,7 @@ namespace MapPacker {
 			// basic clean
 			var asset = CleanAssetPath(item);
 
-			if(!(asset.EndsWith("_c"))) {
+			if(!asset.EndsWith("_c")) {
 				// make sure the file is an asset file as we'd want it
 				return;
 			}
@@ -287,6 +289,7 @@ namespace MapPacker {
 		public static string CleanAssetPath(string item) {
 			var asset = item.Replace("\r\n", "").Replace("\r", "").Replace("\n", "").Replace("/", "\\");
 
+			// this is dumb
 			if(asset.EndsWith("vmat")) {
 				asset = asset.Replace(".vmat", ".vmat_c");
 			} else if(asset.EndsWith("vmdl")) {
