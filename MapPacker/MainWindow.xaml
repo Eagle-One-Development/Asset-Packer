@@ -333,7 +333,7 @@
                                 </Border>
                             </Border>
                             <Image x:Name="EagleOneIcon" Grid.Column="0" Height="25" Grid.Row="1" Width="25" Stretch="Fill" Source="/MapPacker;component/icons/icon_eagleone.png" HorizontalAlignment="Left"/>
-                            <Label x:Name="EagleOneLabel" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Tahoma" Content="Created By Eagle One" Foreground="{DynamicResource steam2004ControlText}"/>
+                            <Label x:Name="EagleOneLabel" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Tahoma" Content="Created By Eagle One | r2.2" Foreground="{DynamicResource steam2004ControlText}"/>
                             <Label x:Name="GithubLink" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Tahoma" Foreground="{DynamicResource steam2004ControlText}">
                                 <Hyperlink Click="LinkLabel_Click" NavigateUri="https://github.com/Eagle-One-Development/Asset-Packer" Foreground="{DynamicResource steam2004ControlText}">
                                     <Run Text="Github"/>
