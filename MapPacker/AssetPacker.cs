@@ -45,8 +45,7 @@ namespace MapPacker {
 			// path where the map is
 			string pathToMap = vmapFile;
 
-			parentForm.PrintToConsole($"reading map file: {pathToMap}");
-			parentForm.PrintToConsole($"\nThis might take some time for big maps!");
+			parentForm.PrintToConsole($"reading map file: {pathToMap}. This might take some time for big maps!");
 			GetAssetsFromMap(pathToMap);
 
 			parentForm.SetProgress(30);
@@ -191,6 +190,7 @@ namespace MapPacker {
 		public void GetAssetsFromMap(string map) { // this uses a full path, since it's kinda for the original map
 			try {
 				var mapData = File.ReadAllBytes($"{map}");
+				parentForm.PrintToConsole($"Read Vmap file, parsing...");
 				AssetFile mapFile = AssetFile.From(mapData);
 				mapFile.TrimAssetList(); // trim it to the space where assets are actually referenced, using "map_assets_references" markers
 

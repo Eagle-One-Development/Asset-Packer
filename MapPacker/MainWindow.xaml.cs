@@ -272,7 +272,7 @@ namespace MapPacker {
 			
 			text = (RichTextBox)this.FindName("sboxLocation");
 			string sboxDir = new TextRange(text.Document.ContentStart, text.Document.ContentEnd).Text.Replace("\r\n", "");
-			if(!Directory.Exists(sboxDir)) {
+			if(!Directory.Exists(sboxDir) || !File.Exists($"{sboxDir}\\sbox.exe")) {
 				MessageBox.Show("s&box Directory path invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
