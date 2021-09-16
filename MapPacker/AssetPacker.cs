@@ -53,7 +53,7 @@ namespace MapPacker {
 			if(assets.Count > 0) {
 				parentForm.PrintToConsole("Found assets:");
 			} else {
-				parentForm.PrintToConsole("No assets found!");
+				parentForm.PrintToConsole("No assets found in provided asset directory!");
 				parentForm.SetProgress(0);
 				if(!this.noNotf)
 					MessageBox.Show("No assets could be found!", "Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
