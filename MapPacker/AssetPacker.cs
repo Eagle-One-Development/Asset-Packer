@@ -232,6 +232,8 @@ namespace MapPacker {
 						GetAssetsFromModel(matItem); // add vmat_c referenced by the vmesh_c
 					} else if(matItem.EndsWith("vphys")) {
 						AddAsset(matItem); // add vphys_c referenced by a vmesh_c
+					} else if(matItem.EndsWith("vanim")) {
+						AddAsset(matItem); // add vanim_c referenced by a vmesh_c
 					}
 				}
 			} catch {
@@ -305,8 +307,8 @@ namespace MapPacker {
 				asset = asset.Replace(".vphys", ".vphys_c");
 			} else if(asset.EndsWith("vmesh")) {
 				asset = asset.Replace(".vmesh", ".vmesh_c");
-			} else if(asset.EndsWith("vsnd")) {
-				asset = asset.Replace("vsnd", "vsnd_c");
+			} else if(asset.EndsWith("vanim")) {
+				asset = asset.Replace(".vanim", ".vanim_c");
 			} else if(asset.EndsWith("vpost")) {
 				asset = asset.Replace("vpost", "vpost_c");
 			}
