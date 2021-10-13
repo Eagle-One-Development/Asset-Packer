@@ -218,22 +218,30 @@ namespace MapPacker {
 			}
 		}
 
+		// this is for all Model related asset types, including legacy support; vmdl, vmesh, vphys, vseq, vagrp and vanim
 		public void GetAssetsFromModel(string item) {
 			try {
-				var modelData = File.ReadAllBytes($"{assetPath}\\{item}_c");
-				AddAsset(item); // add vmdl_c
-				var material = AssetFile.From(modelData);
+				var data = File.ReadAllBytes($"{assetPath}\\{item}_c");
+				AddAsset(item); // add vmdl_c (or legacy reference)
+				var material = AssetFile.From(data);
 				foreach(var matItem in material.SplitNull()) {
 					if(matItem.EndsWith("vmat")) {
-						AddAsset(matItem); // add vmat_c referenced by the vmdl_c
+						// add vmat_c referenced by the vmdl_c
 						GetAssetsFromMaterial(matItem); // add vtex_c referenced by the vmat_c
-					} else if(matItem.EndsWith("vmesh")) { // LEGACY IMPORT SUPPORT |
-						AddAsset(matItem); // add vmesh_c referenced by the vmdl_c	V
+
+					// LEGACY IMPORT SUPPORT 
+					} else if(matItem.EndsWith("vmesh")) { 
+						// add vmesh_c referenced by the vmdl_c
 						GetAssetsFromModel(matItem); // add vmat_c referenced by the vmesh_c
 					} else if(matItem.EndsWith("vphys")) {
 						AddAsset(matItem); // add vphys_c referenced by a vmesh_c
+					} else if(matItem.EndsWith("vseq")) {
+						AddAsset(matItem); // add vseq_c referenced by a vmdl_c
+					} else if(matItem.EndsWith("vagrp")) {
+						// add vagrp_c referenced by a vmdl_c
+						GetAssetsFromModel(matItem); // add vanim_c referenced by a vagrp
 					} else if(matItem.EndsWith("vanim")) {
-						AddAsset(matItem); // add vanim_c referenced by a vmesh_c
+						AddAsset(matItem); // add vanim_c referenced by a vagrp_c
 					}
 				}
 			} catch {
@@ -294,23 +302,27 @@ namespace MapPacker {
 
 			// this is dumb
 			if(asset.EndsWith("vmat")) {
-				asset = asset.Replace(".vmat", ".vmat_c");
+				asset = asset.Replace("vmat", "vmat_c");
 			} else if(asset.EndsWith("vmdl")) {
-				asset = asset.Replace(".vmdl", ".vmdl_c");
+				asset = asset.Replace("vmdl", "vmdl_c");
 			} else if(asset.EndsWith("vtex")) {
-				asset = asset.Replace(".vtex", ".vtex_c");
+				asset = asset.Replace("vtex", "vtex_c");
 			} else if(asset.EndsWith("vpcf")) {
-				asset = asset.Replace(".vpcf", ".vpcf_c");
+				asset = asset.Replace("vpcf", "vpcf_c");
 			} else if(asset.EndsWith("vsnd")) {
-				asset = asset.Replace(".vsnd", ".vsnd_c");
+				asset = asset.Replace("vsnd", "vsnd_c");
 			} else if(asset.EndsWith("vphys")) {
-				asset = asset.Replace(".vphys", ".vphys_c");
+				asset = asset.Replace("vphys", "vphys_c");
 			} else if(asset.EndsWith("vmesh")) {
-				asset = asset.Replace(".vmesh", ".vmesh_c");
+				asset = asset.Replace("vmesh", "vmesh_c");
 			} else if(asset.EndsWith("vanim")) {
-				asset = asset.Replace(".vanim", ".vanim_c");
+				asset = asset.Replace("vanim", "vanim_c");
 			} else if(asset.EndsWith("vpost")) {
 				asset = asset.Replace("vpost", "vpost_c");
+			} else if(asset.EndsWith("vseq")) {
+				asset = asset.Replace("vseq", "vseq_c");
+			} else if(asset.EndsWith("vagrp")) {
+				asset = asset.Replace("vagrp", "vagrp_c");
 			}
 			return asset;
 		}
