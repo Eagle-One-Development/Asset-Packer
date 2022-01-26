@@ -1,3 +1,7 @@
+## THIS PROGRAM IS NOW OBSOLETE
+
+Sbox has its own proper map/addon uploader now that should be used instead of this. This Repository will remain archived.
+
 # Asset-Packer
 
 A program that packs or isolates compiled assets used in a Map.
